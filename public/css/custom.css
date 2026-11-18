@@ -1,0 +1,562 @@
+/* 
+  شركة بصمة كلين للخدمات والنظافة العامة - موريتانيا
+  Société Bassma Clean - Services de Propreté & Hygiène - Mauritanie
+  Brand Palette: Deep Navy Blue (#0b1d51), Clean Cyan (#00a8cc / #0ea5e9), Pure White & Charcoal Slate
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&family=Tajawal:wght@400;500;700;800&display=swap');
+
+:root {
+  --brand-navy: #0b1d51;
+  --brand-navy-dark: #071336;
+  --brand-navy-light: #162d6f;
+  --brand-cyan: #00a8cc;
+  --brand-sky: #0ea5e9;
+  --brand-cyan-light: #e0f7fa;
+  --brand-cyan-pale: #f0f9ff;
+  --neutral-dark: #0f172a;
+  --neutral-slate: #334155;
+  --neutral-gray: #f8fafc;
+  --neutral-card: #ffffff;
+}
+
+/* Typography based on language */
+[dir="rtl"] {
+  font-family: 'Cairo', 'Tajawal', -apple-system, BlinkMacSystemFont, sans-serif;
+  text-align: right;
+}
+
+[dir="ltr"] {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  text-align: left;
+}
+
+body {
+  background-color: #f8fafc;
+  color: #1e293b;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+/* Glassmorphism effects */
+.glass-header {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(226, 232, 240, 0.9);
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(226, 232, 240, 0.85);
+}
+
+.glass-card-dark {
+  background: rgba(11, 29, 81, 0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+/* Bassma Clean Brand Gradients */
+.bg-bassma-gradient {
+  background: linear-gradient(135deg, #0b1d51 0%, #0d2875 55%, #00a8cc 100%);
+}
+
+.bg-bassma-gradient-subtle {
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #f8fafc 100%);
+}
+
+.text-bassma-gradient {
+  background: linear-gradient(135deg, #0b1d51 0%, #00a8cc 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+::-webkit-scrollbar-thumb {
+  background: #94a3b8;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #64748b;
+}
+
+/* Leaflet Map custom styles */
+#wasteMap, #pickerMap {
+  width: 100%;
+  height: 100%;
+  min-height: 480px;
+  border-radius: 1.25rem;
+  z-index: 10;
+}
+
+.leaflet-popup-content-wrapper {
+  border-radius: 1rem;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.12), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  padding: 0;
+  overflow: hidden;
+}
+
+.leaflet-popup-content {
+  margin: 0 !important;
+  line-height: 1.5;
+}
+
+/* Stepper timeline for order tracking */
+.step-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+}
+
+.step-item::after {
+  content: '';
+  position: absolute;
+  top: 20px;
+  width: 100%;
+  height: 4px;
+  background-color: #e2e8f0;
+  z-index: 1;
+}
+
+[dir="rtl"] .step-item::after {
+  right: 50%;
+}
+
+[dir="ltr"] .step-item::after {
+  left: 50%;
+}
+
+.step-item:last-child::after {
+  display: none;
+}
+
+.step-item.active .step-circle {
+  background-color: #0b1d51;
+  color: #38bdf8;
+  border-color: #00a8cc;
+  box-shadow: 0 0 0 4px rgba(0, 168, 204, 0.25);
+}
+
+.step-item.active::after {
+  background-color: #00a8cc;
+}
+
+.step-circle {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background-color: #f8fafc;
+  border: 3px solid #cbd5e1;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  z-index: 2;
+  transition: all 0.3s ease;
+}
+
+/* Card hover animation */
+.hover-lift {
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 25px -5px rgba(11, 29, 81, 0.08), 0 8px 10px -6px rgba(0, 168, 204, 0.06);
+}
+
+/* Tab active indicator */
+.tab-btn.active {
+  background-color: #0b1d51;
+  color: #ffffff;
+  box-shadow: 0 4px 8px -1px rgba(11, 29, 81, 0.25);
+}
+
+/* Status Badges */
+.badge-status-received { background-color: #f1f5f9; color: #475569; border: 1px solid #cbd5e1; }
+.badge-status-under_review { background-color: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; }
+.badge-status-approved { background-color: #f0fdf4; color: #15803d; border: 1px solid #bbf7d0; }
+.badge-status-in_progress { background-color: #fefce8; color: #a16207; border: 1px solid #fef08a; }
+.badge-status-completed { background-color: #e0f7fa; color: #006064; border: 1px solid #80deea; }
+.badge-status-rejected { background-color: #fef2f2; color: #b91c1c; border: 1px solid #fecaca; }
+
+/* Waste Report status badges */
+.badge-report-new { background-color: #fee2e2; color: #991b1b; }
+.badge-report-reviewed { background-color: #e0f2fe; color: #075985; }
+.badge-report-dispatched { background-color: #f3e8ff; color: #6b21a8; }
+.badge-report-in_progress { background-color: #fef3c7; color: #92400e; }
+.badge-report-resolved { background-color: #e0f7fa; color: #006064; }
+
+/* ==================== Brand Logo & Sweeping Broom Animation ==================== */
+.brand-logo-container {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffffff;
+  border-radius: 1.25rem;
+  box-shadow: 0 10px 25px -5px rgba(11, 29, 81, 0.15), 0 8px 10px -6px rgba(0, 168, 204, 0.1);
+  border: 2px solid rgba(0, 168, 204, 0.35);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.brand-logo-container:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 20px 30px -10px rgba(0, 168, 204, 0.35);
+  border-color: #00a8cc;
+}
+
+/* Continuous sweeping motion for the broom */
+.animated-sweeping-broom {
+  transform-origin: 48.9% 37.6%; /* Pivot at worker's hands (450px 385px on 920x1024) */
+  animation: continuousBroomSweep 2.4s ease-in-out infinite;
+  will-change: transform;
+}
+
+@keyframes continuousBroomSweep {
+  0% {
+    transform: rotate(0deg);
+  }
+  20% {
+    transform: rotate(-13deg);
+  }
+  42% {
+    transform: rotate(3deg);
+  }
+  65% {
+    transform: rotate(-10deg);
+  }
+  85% {
+    transform: rotate(8deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+/* Sweeping dust sparkles flaring at the tip of the broom */
+.sweep-sparkles {
+  animation: sweepDustSparkles 2.4s ease-in-out infinite;
+}
+
+@keyframes sweepDustSparkles {
+  0%, 100% {
+    opacity: 0.25;
+    transform: translate(580px, 680px) scale(0.7);
+  }
+  20% {
+    opacity: 1;
+    transform: translate(550px, 680px) scale(1.2);
+  }
+  42% {
+    opacity: 0.35;
+    transform: translate(590px, 680px) scale(0.85);
+  }
+  65% {
+    opacity: 1;
+    transform: translate(560px, 680px) scale(1.15);
+  }
+  85% {
+    opacity: 0.9;
+    transform: translate(610px, 680px) scale(1.1);
+  }
+}
+
+/* Dynamic sweeping breeze trail */
+.sweep-breeze-arc {
+  animation: sweepBreezePulse 2.4s ease-in-out infinite;
+}
+
+@keyframes sweepBreezePulse {
+  0%, 100% {
+    opacity: 0.2;
+    stroke-width: 4;
+  }
+  20%, 65% {
+    opacity: 0.95;
+    stroke-width: 9;
+  }
+  42%, 85% {
+    opacity: 0.4;
+    stroke-width: 5;
+  }
+}
+
+/* Soft worker subtle sweeping posture */
+.animated-worker-posture {
+  animation: workerSweepSway 2.4s ease-in-out infinite;
+}
+
+@keyframes workerSweepSway {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  20% {
+    transform: translateY(1px) rotate(-1deg);
+  }
+  65% {
+    transform: translateY(1px) rotate(-0.8deg);
+  }
+  85% {
+    transform: translateY(0) rotate(0.8deg);
+  }
+}
+
+/* Logo sizing classes */
+.logo-nav {
+  height: 82px;
+  width: 82px;
+}
+
+@media (min-width: 768px) {
+  .logo-nav {
+    height: 94px;
+    width: 94px;
+  }
+}
+
+.logo-hero {
+  height: 140px;
+  width: 140px;
+}
+
+@media (min-width: 768px) {
+  .logo-hero {
+    height: 180px;
+    width: 180px;
+  }
+}
+
+.logo-footer {
+  height: 84px;
+  width: 84px;
+}
+
+/* ==================== Comprehensive Dark Mode Styles (Sombre) ==================== */
+html.dark {
+  color-scheme: dark;
+}
+
+html.dark body {
+  background-color: #080e1a;
+  color: #f1f5f9;
+}
+
+/* Header & Glass in Dark Mode */
+html.dark .glass-header {
+  background: rgba(10, 17, 34, 0.94);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(30, 48, 80, 0.7);
+}
+
+html.dark .glass-card {
+  background: rgba(14, 23, 44, 0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(38, 59, 97, 0.55);
+  color: #f1f5f9;
+}
+
+html.dark .brand-logo-container {
+  background-color: #0b1426;
+  border-color: rgba(0, 168, 204, 0.5);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+}
+
+/* Text adjustments in Dark Mode */
+html.dark .text-slate-900,
+html.dark .text-slate-800 {
+  color: #f8fafc !important;
+}
+
+html.dark .text-slate-700 {
+  color: #e2e8f0 !important;
+}
+
+html.dark .text-slate-600 {
+  color: #cbd5e1 !important;
+}
+
+html.dark .text-slate-500 {
+  color: #94a3b8 !important;
+}
+
+/* Backgrounds in Dark Mode */
+html.dark .bg-white {
+  background-color: #0f192e !important;
+}
+
+html.dark .bg-slate-50 {
+  background-color: #080e1a !important;
+}
+
+html.dark .bg-slate-100 {
+  background-color: #13203b !important;
+}
+
+html.dark .bg-slate-200 {
+  background-color: #1e2e4e !important;
+}
+
+html.dark .border-slate-100,
+html.dark .border-slate-200 {
+  border-color: #1e3050 !important;
+}
+
+html.dark .border-slate-300 {
+  border-color: #2b426a !important;
+}
+
+/* Subtle gradient cards in Dark Mode */
+html.dark .bg-bassma-gradient-subtle {
+  background: linear-gradient(135deg, #0b162c 0%, #0d1e3d 50%, #080e1a 100%) !important;
+}
+
+/* Forms & Inputs in Dark Mode */
+html.dark input:not([type="checkbox"]):not([type="radio"]),
+html.dark select,
+html.dark textarea {
+  background-color: #0a1324 !important;
+  border-color: #263c63 !important;
+  color: #f8fafc !important;
+}
+
+html.dark input::placeholder,
+html.dark textarea::placeholder {
+  color: #64748b !important;
+}
+
+html.dark input:focus,
+html.dark select:focus,
+html.dark textarea:focus {
+  border-color: #0ea5e9 !important;
+  box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.25) !important;
+}
+
+/* Stepper in Dark Mode */
+html.dark .step-item::after {
+  background-color: #1e3050;
+}
+
+html.dark .step-item.active::after {
+  background-color: #00a8cc;
+}
+
+html.dark .step-circle {
+  background-color: #0b1528;
+  border-color: #263c63;
+  color: #94a3b8;
+}
+
+html.dark .step-item.active .step-circle {
+  background-color: #0b1d51;
+  color: #38bdf8;
+  border-color: #00a8cc;
+  box-shadow: 0 0 0 4px rgba(0, 168, 204, 0.35);
+}
+
+/* Table styling in Dark Mode */
+html.dark table thead th {
+  background-color: #0d1830 !important;
+  color: #cbd5e1 !important;
+  border-color: #1e3050 !important;
+}
+
+html.dark table tbody tr {
+  background-color: #0a1324 !important;
+  border-color: #162544 !important;
+  color: #e2e8f0 !important;
+}
+
+html.dark table tbody tr:hover {
+  background-color: #132242 !important;
+}
+
+/* Leaflet Map Popup in Dark Mode */
+html.dark .leaflet-popup-content-wrapper {
+  background: #0f1a30 !important;
+  color: #f8fafc !important;
+  border: 1px solid #263c63 !important;
+}
+
+html.dark .leaflet-popup-tip {
+  background: #0f1a30 !important;
+}
+
+/* Badges in Dark Mode */
+html.dark .badge-status-received { background-color: #16233d; color: #94a3b8; border-color: #263c63; }
+html.dark .badge-status-under_review { background-color: #0c2747; color: #38bdf8; border-color: #0284c7; }
+html.dark .badge-status-approved { background-color: #06351d; color: #4ade80; border-color: #16a34a; }
+html.dark .badge-status-in_progress { background-color: #332607; color: #facc15; border-color: #ca8a04; }
+html.dark .badge-status-completed { background-color: #042f36; color: #22d3ee; border-color: #0891b2; }
+html.dark .badge-status-rejected { background-color: #3b0d11; color: #f87171; border-color: #dc2626; }
+
+/* Scrollbar in Dark Mode */
+html.dark ::-webkit-scrollbar-track {
+  background: #080e1a;
+}
+html.dark ::-webkit-scrollbar-thumb {
+  background: #263c63;
+}
+html.dark ::-webkit-scrollbar-thumb:hover {
+  background: #3b588a;
+}
+
+/* ==================== أنيميشن خفيف لشعار وهوية الشركة (Hero Logo Animation) ==================== */
+.hero-logo-animated {
+  animation: heroGentleFloat 4s ease-in-out infinite, heroLogoGlow 4s ease-in-out infinite;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+  will-change: transform, box-shadow;
+}
+
+.hero-logo-animated:hover {
+  transform: translateY(-8px) scale(1.015);
+  box-shadow: 0 30px 60px -15px rgba(11, 29, 81, 0.25), 0 0 25px rgba(14, 165, 233, 0.2);
+}
+
+@keyframes heroGentleFloat {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-9px);
+  }
+}
+
+@keyframes heroLogoGlow {
+  0%, 100% {
+    box-shadow: 0 20px 40px -15px rgba(11, 29, 81, 0.12), 0 0 0 1px rgba(14, 165, 233, 0.12);
+  }
+  50% {
+    box-shadow: 0 30px 60px -15px rgba(14, 165, 233, 0.22), 0 0 20px 2px rgba(14, 165, 233, 0.25);
+  }
+}
+
+/* شعارات التطبيقات البنكية الموريتانية */
+.bank-logo-img {
+  height: 38px;
+  width: auto;
+  max-width: 90px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.06));
+  transition: transform 0.25s ease;
+}
+
+.order-pay-card:hover .bank-logo-img {
+  transform: scale(1.08);
+}

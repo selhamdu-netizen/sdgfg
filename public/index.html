@@ -1,0 +1,1736 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>شركة بصمة كلين للخدمات والنظافة العامة | Bassma Clean Mauritanie</title>
+  
+  <!-- Favicon -->
+  <link rel="icon" href="assets/logo.jpg">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              navy: '#0b1d51',
+              dark: '#071336',
+              light: '#162d6f',
+              cyan: '#00a8cc',
+              sky: '#0ea5e9'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- FontAwesome 6 Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- Leaflet CSS for OpenStreetMap -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+
+  <!-- Chart.js for Admin Analytics -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Anti-cache meta headers -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/custom.css?v=6.0">
+  
+  <!-- Auto-clear old browser cache -->
+  <script>
+    try {
+      localStorage.removeItem("bassma_services");
+      localStorage.removeItem("bassma_data_version");
+    } catch(e) {}
+  </script>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-sky-500 selection:text-white">
+
+  <!-- Top Announcement Bar (Mauritanian Hotline & Civic Duty) -->
+  <div class="bg-[#0b1d51] text-sky-100 text-xs py-2 px-4 border-b border-sky-900/60">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
+      <div class="flex items-center gap-4">
+        <span class="flex items-center gap-1.5 font-medium">
+          <i class="fa-solid fa-phone text-sky-400"></i>
+          <span data-i18n="top_contact">🇲🇷 في خدمة العاصمة نواكشوط والوطن | هاتف الاتصال المباشر: 45 25 00 00 / 36 00 00 00</span>
+        </span>
+        <span class="hidden md:inline text-sky-700">|</span>
+        <span class="hidden md:flex items-center gap-1.5 text-sky-300">
+          <i class="fa-solid fa-clock text-amber-400"></i>
+          <span data-i18n="top_emergency">خدمات التدخل الميداني واستقبال الطلبات طوال أيام الأسبوع</span>
+        </span>
+      </div>
+      <div class="flex items-center gap-3">
+        <!-- Language Switcher -->
+        <div class="flex items-center bg-[#071336] rounded-lg p-0.5 border border-sky-800/60">
+          <button id="langBtnAr" onclick="setLanguage('ar')" class="px-2.5 py-1 text-xs rounded-md bg-sky-500 text-white font-bold transition">العربية</button>
+          <button id="langBtnFr" onclick="setLanguage('fr')" class="px-2.5 py-1 text-xs rounded-md text-sky-200 hover:text-white transition">Français</button>
+        </div>
+        <!-- Quick Admin Link -->
+        <button onclick="Admin.init(); document.getElementById('adminMainModal').classList.remove('hidden');" class="text-sky-300 hover:text-white text-xs font-semibold flex items-center gap-1">
+          <i class="fa-solid fa-shield-halved"></i>
+          <span data-i18n="nav_admin">لوحة التحكم</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Sticky Header / Navbar -->
+  <header class="sticky top-0 z-40 glass-header">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        
+        <!-- Official Brand Logo -->
+        <a href="#hero" class="flex items-center gap-3 group">
+          <div class="h-14 w-14 rounded-2xl overflow-hidden bg-white shadow-md border border-slate-200 flex items-center justify-center p-1 group-hover:scale-105 transition transform">
+            <img src="assets/logo.jpg" alt="شعار بصمة كلين" class="h-full w-full object-contain">
+          </div>
+          <div>
+            <div class="flex items-center gap-1.5">
+              <span class="text-xl md:text-2xl font-black text-[#0b1d51] tracking-tight block leading-tight font-sans" data-i18n="brand_name">
+                بصمة كلين
+              </span>
+              <span class="text-xs px-1.5 py-0.5 rounded bg-sky-100 text-sky-800 font-bold">موريتانيا 🇲🇷</span>
+            </div>
+            <span class="text-[11px] font-semibold text-slate-500 block -mt-0.5" data-i18n="brand_subtitle">
+              الشركة الموريتانية لخدمات النظافة العامة والصيانة البيئية
+            </span>
+          </div>
+        </a>
+
+        <!-- Desktop Navigation Links -->
+        <nav class="hidden xl:flex items-center gap-5 text-xs lg:text-sm font-semibold text-slate-700">
+          <a href="#hero" class="hover:text-sky-600 transition" data-i18n="nav_home">الرئيسية</a>
+          <a href="#section-about" class="hover:text-sky-600 transition" data-i18n="nav_about">من نحن</a>
+          <a href="#section-services" class="hover:text-sky-600 transition" data-i18n="nav_services">خدماتنا</a>
+          <a href="#section-order" class="hover:text-sky-600 transition font-bold text-sky-700" data-i18n="nav_order">طلب خدمة وعقد</a>
+          <a href="#section-tracking" class="hover:text-sky-600 transition" data-i18n="nav_tracking">متابعة الطلبات</a>
+          <a href="#section-activities" class="hover:text-sky-600 transition" data-i18n="nav_activities">خطط العمل والمبادرات</a>
+          <a href="#section-workflow" class="hover:text-sky-600 transition" data-i18n="nav_workflow">نظام العمل</a>
+          <a href="#section-report" class="text-red-600 hover:text-red-700 font-bold transition flex items-center gap-1" data-i18n="nav_report">
+            <span class="w-2 h-2 rounded-full bg-red-500 animate-ping inline-block"></span>
+            الإبلاغ عن النفايات
+          </a>
+          <a href="#section-feedback" class="hover:text-sky-600 transition" data-i18n="nav_feedback">الآراء والشكاوى</a>
+        </nav>
+
+        <!-- Right Quick Actions -->
+        <div class="hidden sm:flex items-center gap-3">
+          <div id="navAuthContainer">
+            <!-- Will be populated by checkAuthSession() -->
+          </div>
+          <a href="#section-order" class="px-4 py-2.5 rounded-xl bg-[#0b1d51] hover:bg-[#162d6f] text-white font-bold text-xs shadow-md shadow-[#0b1d51]/20 transition flex items-center gap-1.5">
+            <i class="fa-solid fa-file-contract text-sky-400"></i>
+            <span data-i18n="btn_request_service_quick">طلب خدمة أو عقد</span>
+          </a>
+        </div>
+
+        <!-- Mobile Menu Toggle Button -->
+        <button onclick="toggleMobileMenu()" class="xl:hidden p-2.5 rounded-xl bg-slate-100 text-slate-700 hover:bg-slate-200 transition">
+          <i class="fa-solid fa-bars-staggered text-lg"></i>
+        </button>
+
+      </div>
+    </div>
+
+    <!-- Mobile Drawer Menu -->
+    <div id="mobileMenuDrawer" class="hidden xl:hidden border-t border-slate-200 bg-white/95 backdrop-blur-md px-6 py-6 shadow-xl">
+      <div class="flex flex-col gap-4 font-semibold text-slate-800 text-sm">
+        <a href="#hero" onclick="toggleMobileMenu()" class="hover:text-sky-600 py-1" data-i18n="nav_home">الرئيسية</a>
+        <a href="#section-about" onclick="toggleMobileMenu()" class="hover:text-sky-600 py-1" data-i18n="nav_about">من نحن</a>
+        <a href="#section-services" onclick="toggleMobileMenu()" class="hover:text-sky-600 py-1" data-i18n="nav_services">خدماتنا</a>
+        <a href="#section-order" onclick="toggleMobileMenu()" class="hover:text-sky-600 py-1 font-bold text-sky-700" data-i18n="nav_order">طلب خدمة وعقد</a>
+        <a href="#section-tracking" onclick="toggleMobileMenu()" class="hover:text-sky-600 py-1" data-i18n="nav_tracking">متابعة الطلبات</a>
+        <a href="#section-activities" onclick="toggleMobileMenu()" class="hover:text-sky-600 py-1" data-i18n="nav_activities">خطط العمل والمبادرات</a>
+        <a href="#section-workflow" onclick="toggleMobileMenu()" class="hover:text-sky-600 py-1" data-i18n="nav_workflow">نظام العمل</a>
+        <a href="#section-report" onclick="toggleMobileMenu()" class="text-red-600 py-1 font-bold" data-i18n="nav_report">الإبلاغ عن النفايات</a>
+        <a href="#section-news" onclick="toggleMobileMenu()" class="hover:text-sky-600 py-1" data-i18n="nav_news">الأخبار والتوعية</a>
+        <a href="#section-feedback" onclick="toggleMobileMenu()" class="hover:text-sky-600 py-1" data-i18n="nav_feedback">الآراء والشكاوى</a>
+        <div class="border-t border-slate-200 pt-4 flex flex-col gap-2">
+          <a href="#section-report" onclick="toggleMobileMenu()" class="text-center py-2.5 rounded-xl bg-red-600 text-white font-bold text-xs">
+            <i class="fa-solid fa-triangle-exclamation mr-1 ml-1"></i> الإبلاغ عن تراكم النفايات
+          </a>
+          <button onclick="Admin.init(); document.getElementById('adminMainModal').classList.remove('hidden'); toggleMobileMenu();" class="text-center py-2.5 rounded-xl bg-[#0b1d51] text-white font-bold text-xs">
+            <i class="fa-solid fa-lock mr-1 ml-1 text-sky-400"></i> دخول لوحة التحكم الإدارية
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==================== HERO SECTION (MAURITANIA CENTRIC) ==================== -->
+  <section id="hero" class="relative overflow-hidden pt-12 pb-20 lg:pt-16 lg:pb-24 bg-gradient-to-b from-sky-50/70 via-white to-slate-50">
+    <div class="absolute top-1/4 -right-20 w-96 h-96 bg-sky-200/30 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="absolute bottom-10 -left-20 w-96 h-96 bg-blue-900/10 rounded-full blur-3xl pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        
+        <!-- Left Content -->
+        <div class="lg:col-span-7 space-y-6">
+          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-sky-100/90 border border-sky-300 text-sky-900 text-xs font-bold shadow-sm">
+            <span class="w-2.5 h-2.5 rounded-full bg-sky-600 animate-pulse"></span>
+            <span data-i18n="hero_badge">مبادرة وطنية لبناء موريتانيا أنظف وأجمل</span>
+          </div>
+
+          <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black text-[#0b1d51] leading-[1.25] tracking-tight" data-i18n="hero_title">
+            بصمة نظافة تبني مستقبل الوطن وتصون صحة المواطن
+          </h1>
+
+          <!-- شريط التسعيرة وطرق الدفع البارز والمباشر -->
+          <div class="p-4 rounded-2xl bg-[#0b1d51] border-2 border-amber-400 text-white flex flex-wrap items-center justify-between gap-3 shadow-xl">
+            <div class="flex items-center gap-3">
+              <span class="w-10 h-10 rounded-xl bg-amber-400 text-[#0b1d51] flex items-center justify-center font-black text-lg shadow-sm">
+                <i class="fa-solid fa-tags"></i>
+              </span>
+              <div>
+                <span class="text-xs text-amber-300 font-bold block">التسعيرة المعتمدة لجميع الخدمات:</span>
+                <strong class="text-base text-white font-black">100 MRU لكل متر مربع (م²)</strong>
+              </div>
+            </div>
+            <div class="flex flex-wrap items-center gap-1.5 text-xs">
+              <span class="text-sky-200 ml-1">طرق الدفع:</span>
+              <span class="px-2 py-1 rounded-lg bg-blue-900 border border-sky-400/30 text-[11px] font-bold text-white">🏢 زيارة الشركة</span>
+              <span class="px-2 py-1 rounded-lg bg-orange-600 text-[11px] font-bold text-white">🟠 بنكيلي</span>
+              <span class="px-2 py-1 rounded-lg bg-green-600 text-[11px] font-bold text-white">🟢 مصرفي</span>
+              <span class="px-2 py-1 rounded-lg bg-sky-600 text-[11px] font-bold text-white">🔵 السداد</span>
+            </div>
+            <a href="#section-order" class="px-4 py-2.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-[#0b1d51] text-xs font-black transition flex items-center gap-1.5 shadow-md">
+              <i class="fa-solid fa-calculator"></i>
+              <span>احسب واطلب الآن</span>
+            </a>
+          </div>
+
+          <p class="text-sm sm:text-base text-slate-600 leading-relaxed font-normal" data-i18n="hero_desc">
+            انطلقت شركة بصمة كلين بسواعد وكفاءات موريتانية لتوفير حلول احترافية متكاملة لنظافة الشوارع والأحياء في العاصمة نواكشوط والمدن الوطنية، مع تقديم عقود نظافة وصيانة شاملة للمؤسسات، البنوك، الفنادق، المستشفيات والمراكز التجارية بروح وطنية وإتقان عالٍ.
+          </p>
+
+          <!-- 4 Core CTA Buttons -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+            <a href="#section-order" class="px-5 py-3.5 rounded-2xl bg-[#0b1d51] hover:bg-[#162d6f] text-white font-bold text-sm shadow-lg shadow-[#0b1d51]/25 transition text-center flex items-center justify-center gap-2">
+              <i class="fa-solid fa-broom text-sky-400"></i>
+              <span data-i18n="hero_cta_order">اطلب خدماتنا الآن</span>
+            </a>
+            <a href="#section-order" onclick="document.getElementById('orderContractType').value='annual'" class="px-5 py-3.5 rounded-2xl bg-sky-600 hover:bg-sky-700 text-white font-bold text-sm shadow-lg shadow-sky-600/20 transition text-center flex items-center justify-center gap-2">
+              <i class="fa-solid fa-building"></i>
+              <span data-i18n="hero_cta_contract">إبرام عقد لمؤسستك</span>
+            </a>
+            <a href="#section-report" class="px-5 py-3.5 rounded-2xl bg-red-600 hover:bg-red-700 text-white font-bold text-sm shadow-lg shadow-red-600/20 transition text-center flex items-center justify-center gap-2">
+              <i class="fa-solid fa-map-location-dot"></i>
+              <span data-i18n="hero_cta_report">أبلغ عن تراكم نفايات</span>
+            </a>
+            <a href="#section-activities" class="px-5 py-3.5 rounded-2xl bg-white hover:bg-slate-50 border border-slate-300 text-slate-800 font-bold text-sm shadow-sm transition text-center flex items-center justify-center gap-2">
+              <i class="fa-solid fa-list-check text-sky-600"></i>
+              <span data-i18n="hero_cta_activities">تعرف على خطة عملنا</span>
+            </a>
+          </div>
+
+          <!-- National Dedication Tags -->
+          <div class="pt-2 flex flex-wrap items-center gap-4 text-xs font-bold text-slate-600">
+            <span class="flex items-center gap-1.5"><i class="fa-solid fa-flag text-sky-600"></i> 100% طاقم موريتاني</span>
+            <span class="flex items-center gap-1.5"><i class="fa-solid fa-hand-holding-heart text-emerald-600"></i> التزام بنظافة العاصمة</span>
+            <span class="flex items-center gap-1.5"><i class="fa-solid fa-briefcase text-blue-800"></i> عقود مرنة للمؤسسات</span>
+          </div>
+
+        </div>
+
+        <!-- Right Visual Showcase: Official Company Logo with Animation & Slogans -->
+        <div class="lg:col-span-5 relative">
+          <div class="relative mx-auto max-w-md lg:max-w-none">
+            
+            <!-- Animated Main Logo Showcase Card -->
+            <div class="hero-logo-animated relative rounded-3xl shadow-2xl border-4 border-white bg-white overflow-hidden p-6 md:p-8 text-center">
+              
+              <!-- Subtle Ambient Glow -->
+              <div class="absolute -top-16 -right-16 w-48 h-48 bg-sky-200/40 rounded-full blur-2xl pointer-events-none"></div>
+              <div class="absolute -bottom-16 -left-16 w-48 h-48 bg-blue-900/10 rounded-full blur-2xl pointer-events-none"></div>
+
+              <!-- Top National Header -->
+              <div class="relative z-10 flex items-center justify-between mb-4 pb-3 border-b border-slate-100">
+                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black bg-sky-100 text-[#0b1d51]">
+                  <i class="fa-solid fa-flag text-emerald-600"></i>
+                  <span>موريتانيا 🇲🇷</span>
+                </span>
+                <span class="inline-flex items-center gap-1 text-[11px] font-bold text-slate-500">
+                  <i class="fa-solid fa-shield-halved text-sky-600"></i>
+                  <span>الهوية الرسمية المعتمدة</span>
+                </span>
+              </div>
+
+              <!-- Official Company Logo Image with Continuous Broom Animation -->
+              <div class="relative z-10 my-3 flex items-center justify-center">
+                <div class="relative inline-block rounded-2xl overflow-hidden bg-slate-50/80 p-3.5 border border-slate-100 shadow-inner group">
+                  <img src="assets/hero_logo.jpg" alt="شركة بصمة كلين - موريتانيا" class="w-full max-w-[340px] h-auto object-contain mx-auto transition-transform duration-500 group-hover:scale-105">
+                </div>
+              </div>
+
+              <!-- Official Slogans (Arabic & French as shown in official logo) -->
+              <div class="relative z-10 mt-5 pt-4 border-t border-slate-100 space-y-1.5">
+                <div class="text-xs md:text-sm font-black text-[#0b1d51] tracking-wide" data-i18n="hero_slogan_ar">
+                  "نظافة يمكن رؤيتها، و إنتعاش يمكن الشعور به"
+                </div>
+                <div class="text-[11px] md:text-xs font-semibold text-slate-500 italic" data-i18n="hero_slogan_fr">
+                  « La propreté qui se voit, la fraîcheur qui se sent »
+                </div>
+              </div>
+
+              <!-- Quick CTA to Order Form with Area Calculation -->
+              <div class="relative z-10 mt-5 pt-2">
+                <a href="#section-order" class="w-full py-3.5 rounded-2xl bg-[#0b1d51] hover:bg-[#162d6f] text-white text-xs font-black transition flex items-center justify-center gap-2 shadow-lg shadow-[#0b1d51]/25">
+                  <i class="fa-solid fa-calculator text-amber-400"></i>
+                  <span>احسب تكلفة مكانك واطلب الخدمة فوراً</span>
+                </a>
+              </div>
+
+            </div>
+
+            <!-- Floating Stat Badges around Logo -->
+            <div class="hidden sm:flex absolute -bottom-4 -right-3 bg-white/95 backdrop-blur-md rounded-2xl p-3 border border-slate-200 shadow-xl items-center gap-3 z-20">
+              <div class="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center text-emerald-600 text-lg">
+                <i class="fa-solid fa-tags"></i>
+              </div>
+              <div class="text-right">
+                <span class="text-[10px] text-slate-400 font-bold block">التسعيرة الرسمية</span>
+                <span class="text-xs font-black text-[#0b1d51]">100 MRU / م²</span>
+              </div>
+            </div>
+
+            <div class="hidden sm:flex absolute -top-3 -left-3 bg-white/95 backdrop-blur-md rounded-2xl p-3 border border-slate-200 shadow-xl items-center gap-3 z-20">
+              <div class="w-10 h-10 rounded-xl bg-orange-100 flex items-center justify-center text-orange-600 text-lg">
+                <i class="fa-solid fa-wallet"></i>
+              </div>
+              <div class="text-right">
+                <span class="text-[10px] text-slate-400 font-bold block">طرق دفع وطنية</span>
+                <span class="text-xs font-black text-slate-700">بنكيلي • مصرفي • السداد</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Qualitative National Value Pillars (Replaced fake numbers) -->
+      <div class="mt-14 pt-8 border-t border-slate-200 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        
+        <div class="p-4 rounded-2xl bg-white border border-slate-200 shadow-sm flex items-start gap-3">
+          <div class="w-10 h-10 rounded-xl bg-sky-100 text-sky-700 flex items-center justify-center text-lg flex-shrink-0">
+            <i class="fa-solid fa-map-location"></i>
+          </div>
+          <div>
+            <h4 class="font-bold text-xs text-[#0b1d51] mb-1" data-i18n="pillar_1_title">تغطية نواكشوط والمدن</h4>
+            <p class="text-[11px] text-slate-500 leading-relaxed" data-i18n="pillar_1_desc">خطط تشغيلية تشمل مختلف مقاطعات العاصمة مع جاهزية للتوسع في المدن الداخلية.</p>
+          </div>
+        </div>
+
+        <div class="p-4 rounded-2xl bg-white border border-slate-200 shadow-sm flex items-start gap-3">
+          <div class="w-10 h-10 rounded-xl bg-blue-100 text-[#0b1d51] flex items-center justify-center text-lg flex-shrink-0">
+            <i class="fa-solid fa-people-group"></i>
+          </div>
+          <div>
+            <h4 class="font-bold text-xs text-[#0b1d51] mb-1" data-i18n="pillar_2_title">سواعد موريتانية مخلصة</h4>
+            <p class="text-[11px] text-slate-500 leading-relaxed" data-i18n="pillar_2_desc">تشغيل وتأهيل الشباب الموريتاني في مهن النظافة والصحة البيئية باحترافية.</p>
+          </div>
+        </div>
+
+        <div class="p-4 rounded-2xl bg-white border border-slate-200 shadow-sm flex items-start gap-3">
+          <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-800 flex items-center justify-center text-lg flex-shrink-0">
+            <i class="fa-solid fa-heart-pulse"></i>
+          </div>
+          <div>
+            <h4 class="font-bold text-xs text-[#0b1d51] mb-1" data-i18n="pillar_3_title">مسؤولية وأمانة وطنية</h4>
+            <p class="text-[11px] text-slate-500 leading-relaxed" data-i18n="pillar_3_desc">الالتزام الصارم بنظافة المحيط الحضري وتعزيز السلوك المدني وصحة المجتمع.</p>
+          </div>
+        </div>
+
+        <div class="p-4 rounded-2xl bg-white border border-slate-200 shadow-sm flex items-start gap-3">
+          <div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-800 flex items-center justify-center text-lg flex-shrink-0">
+            <i class="fa-solid fa-handshake"></i>
+          </div>
+          <div>
+            <h4 class="font-bold text-xs text-[#0b1d51] mb-1" data-i18n="pillar_4_title">شراكات مؤسسية مرنة</h4>
+            <p class="text-[11px] text-slate-500 leading-relaxed" data-i18n="pillar_4_desc">عقود نظافة يومية ودورية مدروسة تناسب كافة الهيئات والشركات في موريتانيا.</p>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==================== SECTION 1: ABOUT US ==================== -->
+  <section id="section-about" class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Section Header -->
+      <div class="text-center max-w-3xl mx-auto mb-16 space-y-3">
+        <span class="inline-block px-3.5 py-1 rounded-full text-xs font-bold bg-sky-100 text-sky-900" data-i18n="about_badge">
+          انطلاقة وطنية بهمة شبابية
+        </span>
+        <h2 class="text-2xl sm:text-3xl lg:text-4xl font-black text-[#0b1d51]" data-i18n="about_title">
+          من نحن - شركة بصمة كلين الموريتانية
+        </h2>
+        <p class="text-sm text-slate-600 leading-relaxed" data-i18n="about_history_text">
+          بصمة كلين هي مؤسسة وطنية موريتانية متخصصة في خدمات النظافة الحضرية، الصيانة البيئية، وحلول النظافة المؤسسية. تأسست بمبادرة شبابية طموحة تهدف إلى المساهمة الفاعلة في تنمية موريتانيا عبر الارتقاء بالمظهر الحضاري لمدننا، صون الصحة العامة، وتقديم خدمات متقنة للمؤسسات العامة والخاصة والأفراد برؤية عصرية تعتمد على الأمانة والانضباط.
+        </p>
+      </div>
+
+      <!-- Vision & Mission Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+        <div class="p-8 rounded-3xl bg-slate-50 border border-slate-200 hover-lift relative overflow-hidden">
+          <div class="w-14 h-14 rounded-2xl bg-[#0b1d51] text-sky-400 flex items-center justify-center text-2xl mb-6 shadow-md">
+            <i class="fa-solid fa-eye"></i>
+          </div>
+          <h3 class="text-xl font-bold text-slate-900 mb-3" data-i18n="about_vision_title">رؤيتنا الوطنية</h3>
+          <p class="text-sm text-slate-600 leading-relaxed" data-i18n="about_vision_text">
+            أن نكون البصمة الموريتانية الرائدة في إرساء ثقافة النظافة المستدامة، وتقديم نموذج يحتذى به في جودة الخدمات الحضرية التي تخدم الوطن والمواطن.
+          </p>
+        </div>
+
+        <div class="p-8 rounded-3xl bg-slate-50 border border-slate-200 hover-lift relative overflow-hidden">
+          <div class="w-14 h-14 rounded-2xl bg-sky-600 text-white flex items-center justify-center text-2xl mb-6 shadow-md">
+            <i class="fa-solid fa-bullseye"></i>
+          </div>
+          <h3 class="text-xl font-bold text-slate-900 mb-3" data-i18n="about_mission_title">رسالتنا</h3>
+          <p class="text-sm text-slate-600 leading-relaxed" data-i18n="about_mission_text">
+            تقديم خدمات نظافة شاملة ودقيقة تلبي متطلبات المؤسسات والساكنة في موريتانيا، ومساندة البلديات في الحفاظ على جمال ونظافة العاصمة ومدننا الحبيبة.
+          </p>
+        </div>
+      </div>
+
+      <!-- 4 Core Pillars -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+        <div class="p-6 rounded-2xl border border-slate-200 hover:border-sky-500 transition">
+          <div class="w-10 h-10 rounded-xl bg-sky-100 text-sky-800 flex items-center justify-center text-lg mb-4">
+            <i class="fa-solid fa-flag"></i>
+          </div>
+          <h4 class="font-bold text-slate-900 text-base mb-2" data-i18n="val_1_title">خدمة الوطن والمواطن</h4>
+          <p class="text-xs text-slate-500 leading-relaxed" data-i18n="val_1_desc">
+            وضع المصلحة الوطنية ونظافة مدننا كأولوية قصوى في كل تدخل نقوم به.
+          </p>
+        </div>
+
+        <div class="p-6 rounded-2xl border border-slate-200 hover:border-sky-500 transition">
+          <div class="w-10 h-10 rounded-xl bg-blue-100 text-[#0b1d51] flex items-center justify-center text-lg mb-4">
+            <i class="fa-solid fa-certificate"></i>
+          </div>
+          <h4 class="font-bold text-slate-900 text-base mb-2" data-i18n="val_2_title">الإتقان والأمانة المهنية</h4>
+          <p class="text-xs text-slate-500 leading-relaxed" data-i18n="val_2_desc">
+            الالتزام بأعلى معايير الإتقان والأمانة في تنفيذ الأعمال التعاقدية للمؤسسات والشركاء.
+          </p>
+        </div>
+
+        <div class="p-6 rounded-2xl border border-slate-200 hover:border-sky-500 transition">
+          <div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-800 flex items-center justify-center text-lg mb-4">
+            <i class="fa-solid fa-bolt"></i>
+          </div>
+          <h4 class="font-bold text-slate-900 text-base mb-2" data-i18n="val_3_title">الاستجابة والجاهزية</h4>
+          <p class="text-xs text-slate-500 leading-relaxed" data-i18n="val_3_desc">
+            سرعة التفاعل مع طلبات العملاء ومع بلاغات المواطنين بخصوص تراكم القمامة.
+          </p>
+        </div>
+
+        <div class="p-6 rounded-2xl border border-slate-200 hover:border-sky-500 transition">
+          <div class="w-10 h-10 rounded-xl bg-indigo-100 text-indigo-800 flex items-center justify-center text-lg mb-4">
+            <i class="fa-solid fa-user-gear"></i>
+          </div>
+          <h4 class="font-bold text-slate-900 text-base mb-2" data-i18n="val_4_title">تشغيل وتأهيل الكفاءات المحلية</h4>
+          <p class="text-xs text-slate-500 leading-relaxed" data-i18n="val_4_desc">
+            الاعتماد على الكفاءات الوطنية الشابة وتوفير بيئة عمل محترمة تحفظ كرامة العامل.
+          </p>
+        </div>
+      </div>
+
+      <!-- Equipment & Methodology Banner -->
+      <div class="rounded-3xl bg-bassma-gradient p-8 md:p-12 text-white shadow-xl relative overflow-hidden">
+        <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          <div class="lg:col-span-8 space-y-4">
+            <span class="inline-block px-3 py-1 bg-white/15 backdrop-blur-sm rounded-full text-xs font-bold text-sky-200" data-i18n="about_equipment_title">
+              منهجيتنا ومعداتنا الميدانية
+            </span>
+            <h3 class="text-2xl sm:text-3xl font-black leading-tight text-white">
+              جاهزية ميدانية ومعدات ملائمة لواقع وتحديات بيئتنا الحضرية
+            </h3>
+            <p class="text-sm text-sky-100 leading-relaxed" data-i18n="about_equipment_desc">
+              نعتمد على آليات كنس وغسيل، شاحنات نقل، معدات تعقيم متطورة، وأدوات وقاية متكاملة لفرق العمل لضمان نتائج ملموسة وواضحة.
+            </p>
+            <div class="pt-2 flex flex-wrap gap-4 text-xs font-bold text-white">
+              <span class="px-3 py-1.5 rounded-lg bg-white/10"><i class="fa-solid fa-check text-sky-300 mr-1 ml-1"></i> كنس وإزالة الرمال الزاحفة</span>
+              <span class="px-3 py-1.5 rounded-lg bg-white/10"><i class="fa-solid fa-check text-sky-300 mr-1 ml-1"></i> شاحنات نقل وتفريغ مجهزة</span>
+              <span class="px-3 py-1.5 rounded-lg bg-white/10"><i class="fa-solid fa-check text-sky-300 mr-1 ml-1"></i> مضخات غسيل وضغط مائي</span>
+              <span class="px-3 py-1.5 rounded-lg bg-white/10"><i class="fa-solid fa-check text-sky-300 mr-1 ml-1"></i> تعقيم صحي معتمد</span>
+            </div>
+          </div>
+          <div class="lg:col-span-4 text-center">
+            <a href="#section-order" class="inline-block px-8 py-4 rounded-2xl bg-white text-[#0b1d51] font-extrabold text-sm shadow-xl hover:bg-sky-50 transition transform hover:-translate-y-1">
+              طلب دراسة ومعاينة ميدانية
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==================== SECTION 2: SERVICES (11 SERVICES) ==================== -->
+  <section id="section-services" class="py-20 bg-slate-50 border-t border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Section Header -->
+      <div class="text-center max-w-3xl mx-auto mb-12 space-y-3">
+        <span class="inline-block px-3.5 py-1 rounded-full text-xs font-bold bg-sky-100 text-sky-900" data-i18n="services_badge">
+          خدمات شاملة مصممة لواقعنا
+        </span>
+        <h2 class="text-2xl sm:text-3xl lg:text-4xl font-black text-[#0b1d51]" data-i18n="services_title">
+          خدماتنا الميدانية والمؤسسية
+        </h2>
+        <p class="text-sm text-slate-500 leading-relaxed" data-i18n="services_desc">
+          باقة متكاملة من خدمات النظافة الحضرية والمؤسسية لتلبية احتياجات المقرات الإدارية والشركات والأحياء في موريتانيا.
+        </p>
+
+        <!-- Service Filter Tabs -->
+        <div class="flex flex-wrap justify-center gap-2 pt-4">
+          <button id="serviceTab_all" onclick="filterServices('all')" class="service-filter-btn px-4 py-2 rounded-xl text-xs font-bold bg-[#0b1d51] text-white shadow-sm transition" data-i18n="services_tab_all">
+            كافة الخدمات (11)
+          </button>
+          <button id="serviceTab_urban" onclick="filterServices('urban')" class="service-filter-btn px-4 py-2 rounded-xl text-xs font-semibold bg-white text-slate-600 hover:bg-slate-100 transition" data-i18n="services_tab_urban">
+            الشوارع والبلديات
+          </button>
+          <button id="serviceTab_corporate" onclick="filterServices('corporate')" class="service-filter-btn px-4 py-2 rounded-xl text-xs font-semibold bg-white text-slate-600 hover:bg-slate-100 transition" data-i18n="services_tab_corporate">
+            المؤسسات والبنوك
+          </button>
+          <button id="serviceTab_special" onclick="filterServices('special')" class="service-filter-btn px-4 py-2 rounded-xl text-xs font-semibold bg-white text-slate-600 hover:bg-slate-100 transition" data-i18n="services_tab_special">
+            المستشفيات والفنادق
+          </button>
+          <button id="serviceTab_contracts" onclick="filterServices('contracts')" class="service-filter-btn px-4 py-2 rounded-xl text-xs font-semibold bg-white text-slate-600 hover:bg-slate-100 transition" data-i18n="services_tab_contracts">
+            العقود والتدخل الخاص
+          </button>
+        </div>
+      </div>
+
+      <!-- Services Grid (Rendered dynamically via app.js) -->
+      <div id="servicesContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+
+    </div>
+  </section>
+
+  <!-- ==================== SECTION 3: REQUEST SERVICE & CONTRACT ==================== -->
+  <section id="section-order" class="py-20 bg-white border-t border-slate-200">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Section Header -->
+      <div class="text-center max-w-2xl mx-auto mb-12 space-y-3">
+        <span class="inline-block px-3.5 py-1 rounded-full text-xs font-bold bg-sky-100 text-sky-900" data-i18n="order_badge">
+          حجز سهل ومتابعة رقمية
+        </span>
+        <h2 class="text-2xl sm:text-3xl font-black text-[#0b1d51]" data-i18n="order_title">
+          طلب الخدمات وإبرام العقود
+        </h2>
+        <p class="text-sm text-slate-500 leading-relaxed" data-i18n="order_desc">
+          املأ النموذج التالي لطلب خدمة فردية أو إبرام عقد دوري لمؤسستك أو شركتك في موريتانيا، وستحصل فوراً على رقم مرجعي لتتبع الطلب.
+        </p>
+      </div>
+
+      <!-- Form Container -->
+      <div class="bg-slate-50 rounded-3xl p-6 sm:p-10 border border-slate-200 shadow-lg">
+        <form id="serviceOrderForm" onsubmit="handleServiceOrderSubmit(event)" class="space-y-6">
+          
+          <!-- Client Type Radios -->
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-2" data-i18n="form_client_type">صفة مقدم الطلب</label>
+            <div class="grid grid-cols-2 gap-4">
+              <label class="flex items-center gap-3 p-3.5 rounded-2xl bg-white border border-slate-200 cursor-pointer hover:border-sky-500 transition">
+                <input type="radio" name="client_type" value="individual" checked class="text-sky-600 focus:ring-sky-500">
+                <span class="text-xs font-bold text-slate-800" data-i18n="form_client_ind">فرد / مواطن</span>
+              </label>
+              <label class="flex items-center gap-3 p-3.5 rounded-2xl bg-white border border-slate-200 cursor-pointer hover:border-sky-500 transition">
+                <input type="radio" name="client_type" value="corporate" class="text-sky-600 focus:ring-sky-500">
+                <span class="text-xs font-bold text-slate-800" data-i18n="form_client_corp">مؤسسة / بنك / شركة / هيئة عامة</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Basic Info -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1.5" data-i18n="form_name">الاسم الكامل أو اسم الهيئة *</label>
+              <input type="text" id="orderName" required placeholder="مثال: شركة موريتل، بنك المعاملات، أو محمد فال" class="w-full px-4 py-3 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-sky-500 focus:outline-none bg-white">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1.5" data-i18n="form_phone">رقم الهاتف للتواصل (موريتانيا) *</label>
+              <input type="tel" id="orderPhone" required placeholder="45 25 00 00 / 36 00 00 00" class="w-full px-4 py-3 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-sky-500 focus:outline-none bg-white">
+            </div>
+          </div>
+
+          <!-- Email & Contract Type -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1.5" data-i18n="form_email">البريد الإلكتروني (اختياري)</label>
+              <input type="email" id="orderEmail" placeholder="contact@example.mr" class="w-full px-4 py-3 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-sky-500 focus:outline-none bg-white">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1.5" data-i18n="form_service_select">نوع الخدمة المطلوبة *</label>
+              <select id="orderServiceSelect" required class="w-full px-4 py-3 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-sky-500 focus:outline-none bg-white">
+                <!-- Populated dynamically -->
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1.5" data-i18n="form_contract_type">نوع العقد أو الطلب *</label>
+              <select id="orderContractType" required class="w-full px-4 py-3 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-sky-500 focus:outline-none bg-white">
+                <option value="one_time" data-i18n="opt_contract_one_time">خدمة لمرة واحدة (محددة)</option>
+                <option value="monthly" data-i18n="opt_contract_monthly">عقد دوري شهري</option>
+                <option value="annual" data-i18n="opt_contract_annual">عقد صيانة ونظافة سنوي للمؤسسات</option>
+                <option value="emergency" data-i18n="opt_contract_emergency">تدخل خاص أو طارئ</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Location Info in Mauritania -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1.5" data-i18n="form_city">المدينة *</label>
+              <input type="text" id="orderCity" required value="نواكشوط" placeholder="نواكشوط، نواذيبو، روصو..." class="w-full px-4 py-3 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-sky-500 focus:outline-none bg-white">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1.5" data-i18n="form_district">المقاطعة / الحي *</label>
+              <input type="text" id="orderDistrict" required placeholder="تفرغ زينة، لكصر، عرفات، السبخة..." class="w-full px-4 py-3 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-sky-500 focus:outline-none bg-white">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1.5" data-i18n="form_address">العنوان التفصيلي ومكان المعاينة *</label>
+              <input type="text" id="orderAddress" required placeholder="شارع المختار ولد داداه قرب..." class="w-full px-4 py-3 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-sky-500 focus:outline-none bg-white">
+            </div>
+          </div>
+
+          <!-- Description -->
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1.5" data-i18n="form_desc">وصف الخدمة والملاحظات الخاصة (أوقات العمل المفضلة، تفاصيل إضافية)</label>
+            <textarea id="orderDesc" rows="2" placeholder="حدد تفاصيل الموقع، عدد الغرف أو المكاتب، وأي متطلبات خاصة..." class="w-full px-4 py-3 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-sky-500 focus:outline-none bg-white"></textarea>
+          </div>
+
+          <!-- ==================== المساحة وحساب التكلفة وطريقة الدفع ==================== -->
+          <div class="bg-gradient-to-br from-sky-50/80 via-white to-blue-50/80 border-2 border-sky-300 rounded-3xl p-6 sm:p-7 shadow-sm space-y-6">
+            
+            <div class="flex items-center justify-between border-b border-sky-100 pb-3">
+              <div class="flex items-center gap-2.5">
+                <div class="w-10 h-10 rounded-xl bg-[#0b1d51] text-sky-300 flex items-center justify-center text-lg">
+                  <i class="fa-solid fa-calculator"></i>
+                </div>
+                <div>
+                  <h4 class="font-black text-[#0b1d51] text-sm" data-i18n="order_calc_title">حساب المساحة والتكلفة وطريقة الدفع</h4>
+                  <p class="text-[11px] text-slate-500"><span data-i18n="order_calc_subtitle">التسعيرة الرسمية المعتمدة:</span> <strong class="text-sky-700">100 MRU / <span data-i18n="calc_unit_sqm">م²</span></strong></p>
+                </div>
+              </div>
+              <span class="px-3 py-1 rounded-full text-xs font-black bg-sky-600 text-white shadow-sm">100 MRU / <span data-i18n="calc_unit_sqm">م²</span></span>
+            </div>
+
+            <!-- إدخال المساحة وحساب التكلفة -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
+              <div>
+                <label class="block text-xs font-bold text-slate-800 mb-1.5">
+                  <i class="fa-solid fa-ruler-combined text-sky-600 ml-1"></i>
+                  <span data-i18n="calc_area_label">المساحة المراد تنظيفها (بالمتر المربع م²) *</span>
+                </label>
+                <div class="flex items-center gap-2">
+                  <input
+                    type="number"
+                    id="orderAreaInput"
+                    min="1"
+                    step="1"
+                    required
+                    placeholder="مثال: 120"
+                    data-i18n-placeholder="calc_area_placeholder"
+                    class="flex-1 px-4 py-3 rounded-xl border-2 border-sky-300 text-base font-black text-slate-800 focus:ring-2 focus:ring-sky-500 focus:outline-none bg-white"
+                    oninput="calcOrderFormCost()"
+                  >
+                  <span class="text-xs font-bold text-slate-600 bg-sky-100 px-3 py-3 rounded-xl" data-i18n="calc_unit_sqm">م²</span>
+                </div>
+              </div>
+
+              <!-- بطاقة نتيجة الحساب الفوري -->
+              <div class="bg-[#0b1d51] text-white rounded-2xl p-4 text-center shadow-md">
+                <span class="text-[11px] text-sky-300 block mb-0.5" data-i18n="calc_total_label">التكلفة الإجمالية المحسوبة:</span>
+                <div class="flex items-baseline justify-center gap-1.5">
+                  <span id="orderCostValue" class="text-3xl font-black text-amber-300">0</span>
+                  <span class="text-sm font-bold text-sky-200" data-i18n="calc_currency">MRU (أوقية موريتانية)</span>
+                </div>
+                <div class="text-[10px] text-slate-300 mt-1" id="orderCostFormula" data-i18n="calc_formula_hint">أدخل المساحة لحساب المبلغ تلقائياً</div>
+              </div>
+            </div>
+
+            <!-- اختيار طريقة الدفع (4 خيارات معتمدة) -->
+            <div>
+              <label class="block text-xs font-bold text-slate-800 mb-2.5">
+                <i class="fa-solid fa-credit-card text-sky-600 ml-1"></i>
+                <span data-i18n="pay_methods_title">طريقة الدفع المفضلة * (اختر إحدى الطرق التالية)</span>
+              </label>
+
+              <div class="grid grid-cols-2 sm:grid-cols-4 gap-3.5">
+
+                <!-- 1. زيارة الشركة -->
+                <label class="order-pay-card relative flex flex-col items-center justify-between gap-2.5 p-4 rounded-2xl border-2 border-slate-200 cursor-pointer hover:border-[#0b1d51] bg-white transition text-center has-[:checked]:border-[#0b1d51] has-[:checked]:bg-blue-50/70 has-[:checked]:shadow-md">
+                  <input type="radio" name="order_payment_method" value="visit" checked class="hidden" onchange="onOrderPayMethodChange()">
+                  <div class="w-14 h-14 rounded-2xl bg-blue-100/90 flex items-center justify-center text-[#0b1d51] text-2xl shadow-sm">
+                    <i class="fa-solid fa-building-columns"></i>
+                  </div>
+                  <div class="w-full">
+                    <span class="text-xs font-black text-slate-800 block leading-tight" data-i18n="pay_method_visit">زيارة الشركة</span>
+                    <span class="text-[10px] text-slate-500 font-medium block mt-0.5" data-i18n="pay_method_visit_sub">مقرنا بنواكشوط (نقداً أو شيك)</span>
+                  </div>
+                </label>
+
+                <!-- 2. بنكيلي -->
+                <label class="order-pay-card relative flex flex-col items-center justify-between gap-2.5 p-4 rounded-2xl border-2 border-slate-200 cursor-pointer hover:border-orange-500 bg-white transition text-center has-[:checked]:border-orange-500 has-[:checked]:bg-orange-50/70 has-[:checked]:shadow-md">
+                  <input type="radio" name="order_payment_method" value="bankily" class="hidden" onchange="onOrderPayMethodChange()">
+                  <div class="w-14 h-14 rounded-2xl bg-orange-50 flex items-center justify-center p-2 shadow-sm border border-orange-100">
+                    <img src="assets/logo_bankily.png" alt="Bankily - BPM" class="bank-logo-img">
+                  </div>
+                  <div class="w-full">
+                    <span class="text-xs font-black text-slate-800 block leading-tight" data-i18n="pay_method_bankily">بنكيلي (Bankily)</span>
+                    <span class="text-[10px] text-orange-600 font-bold block mt-0.5" data-i18n="pay_method_bankily_sub">تابع لـ BPM</span>
+                  </div>
+                </label>
+
+                <!-- 3. مصرفي -->
+                <label class="order-pay-card relative flex flex-col items-center justify-between gap-2.5 p-4 rounded-2xl border-2 border-slate-200 cursor-pointer hover:border-green-600 bg-white transition text-center has-[:checked]:border-green-600 has-[:checked]:bg-green-50/70 has-[:checked]:shadow-md">
+                  <input type="radio" name="order_payment_method" value="masrafi" class="hidden" onchange="onOrderPayMethodChange()">
+                  <div class="w-14 h-14 rounded-2xl bg-green-50 flex items-center justify-center p-2 shadow-sm border border-green-100">
+                    <img src="assets/logo_masrvi.png" alt="Masrvi - BMCI" class="bank-logo-img">
+                  </div>
+                  <div class="w-full">
+                    <span class="text-xs font-black text-slate-800 block leading-tight" data-i18n="pay_method_masrafi">مصرفي (Masrvi)</span>
+                    <span class="text-[10px] text-emerald-700 font-bold block mt-0.5" data-i18n="pay_method_masrafi_sub">تابع لـ BMCI</span>
+                  </div>
+                </label>
+
+                <!-- 4. السداد -->
+                <label class="order-pay-card relative flex flex-col items-center justify-between gap-2.5 p-4 rounded-2xl border-2 border-slate-200 cursor-pointer hover:border-sky-600 bg-white transition text-center has-[:checked]:border-sky-600 has-[:checked]:bg-sky-50/70 has-[:checked]:shadow-md">
+                  <input type="radio" name="order_payment_method" value="sadad" class="hidden" onchange="onOrderPayMethodChange()">
+                  <div class="w-14 h-14 rounded-2xl bg-sky-50 flex items-center justify-center p-2 shadow-sm border border-sky-100">
+                    <img src="assets/logo_sedad.png" alt="Sedad - BMI" class="bank-logo-img rounded-md">
+                  </div>
+                  <div class="w-full">
+                    <span class="text-xs font-black text-slate-800 block leading-tight" data-i18n="pay_method_sadad">السداد (Sedad)</span>
+                    <span class="text-[10px] text-sky-700 font-bold block mt-0.5" data-i18n="pay_method_sadad_sub">تابع لـ BMI</span>
+                  </div>
+                </label>
+
+              </div>
+            </div>
+
+            <!-- إرشادات وتفاصيل الدفع الفورية للوسيلة المختارة -->
+            <div id="orderPayDetailsBox" class="p-4 rounded-2xl bg-white border border-sky-200 text-xs text-slate-700">
+              <div class="flex items-center gap-2 font-bold text-[#0b1d51] mb-1">
+                <i class="fa-solid fa-circle-info text-sky-600"></i>
+                <span id="orderPayDetailsTitle">زيارة مقر شركة بصمة كلين في نواكشوط</span>
+              </div>
+              <p id="orderPayDetailsDesc" class="text-[11px] text-slate-600 leading-relaxed">
+                يسعدنا استقبالكم في مقرنا الرسمي بنواكشوط (تفرغ زينة) لإتمام الإجراءات وتوقيع العقد والدفع نقداً أو بشيك مصرفي. هاتف المتابعة: 45 25 00 00.
+              </p>
+            </div>
+
+          </div>
+
+          <!-- Attach Image -->
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1.5" data-i18n="form_attach_photo">إرفاق صورة للموقع (اختياري)</label>
+            <div class="border-2 border-dashed border-slate-300 rounded-2xl p-6 text-center hover:border-sky-500 transition cursor-pointer bg-white" onclick="document.getElementById('orderPhotoInput').click()">
+              <input type="file" id="orderPhotoInput" accept="image/*" class="hidden">
+              <i class="fa-solid fa-cloud-arrow-up text-3xl text-slate-400 mb-2"></i>
+              <p class="text-xs text-slate-600 font-semibold" data-i18n="form_drag_drop">انقر لاختيار صورة للموقع أو اسحبها إلى هنا</p>
+              <span class="text-[11px] text-slate-400">PNG, JPG, JPEG</span>
+              <div id="orderPhotoPreview" class="hidden mt-3"></div>
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <button type="submit" id="btnSubmitOrder" class="w-full py-4 rounded-2xl bg-[#0b1d51] hover:bg-[#162d6f] text-white font-extrabold text-sm shadow-xl shadow-[#0b1d51]/20 transition flex items-center justify-center gap-2">
+            <i class="fa-solid fa-paper-plane text-sky-400"></i>
+            <span data-i18n="btn_submit_order">إرسال الطلب والحصول على رقم التتبع</span>
+          </button>
+
+        </form>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==================== SECTION 3.1: LIVE ORDER TRACKING ==================== -->
+  <section id="section-tracking" class="py-16 bg-slate-100/70 border-t border-slate-200">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-xl mx-auto mb-8 space-y-2">
+        <span class="inline-block px-3 py-1 rounded-full text-xs font-bold bg-sky-100 text-sky-900" data-i18n="tracking_badge">
+          متابعة شفافة ولحظية
+        </span>
+        <h2 class="text-xl sm:text-2xl font-black text-[#0b1d51]" data-i18n="tracking_title">
+          متابعة حالة طلب الخدمة أو العقد
+        </h2>
+        <p class="text-xs text-slate-500" data-i18n="tracking_desc">
+          أدخل الرقم المرجعي للطلب (مثال: BC-2026-8041) للاطلاع على مراحل معالجة طلبك خطوة بخطوة.
+        </p>
+      </div>
+
+      <!-- Search Input Box -->
+      <div class="bg-white p-3 rounded-2xl shadow-md border border-slate-200 flex items-center gap-2 mb-8">
+        <div class="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center text-slate-400">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </div>
+        <input type="text" id="trackerRefInput" placeholder="أدخل الرقم المرجعي مثل BC-2026-..." data-i18n-placeholder="tracking_placeholder" class="flex-1 px-3 py-2 text-xs font-mono font-bold text-slate-800 focus:outline-none">
+        <button onclick="trackOrder()" class="px-6 py-2.5 rounded-xl bg-[#0b1d51] hover:bg-[#162d6f] text-white font-bold text-xs shadow transition">
+          <span data-i18n="btn_track">متابعة الطلب</span>
+        </button>
+      </div>
+
+      <!-- Result Container (Rendered by trackOrder()) -->
+      <div id="trackerResultContainer" class="hidden"></div>
+
+    </div>
+  </section>
+
+  <!-- ==================== SECTION 4: OPERATIONAL ACTION PLANS & PROGRAMMES ==================== -->
+  <section id="section-activities" class="py-20 bg-white border-t border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto mb-12 space-y-3">
+        <span class="inline-block px-3.5 py-1 rounded-full text-xs font-bold bg-sky-100 text-sky-900" data-i18n="activities_badge">
+          رؤيتنا الميدانية للميدان الموريتاني
+        </span>
+        <h2 class="text-2xl sm:text-3xl lg:text-4xl font-black text-[#0b1d51]" data-i18n="activities_title">
+          خطط عملنا الميدانية وبرامجنا الوطنية
+        </h2>
+        <p class="text-sm text-slate-500 leading-relaxed" data-i18n="activities_desc">
+          برامج ومبادرات نوعية صممتها شركة بصمة كلين للنهوض بنظافة أحيائنا ومساندة المؤسسات والبلديات في موريتانيا.
+        </p>
+
+        <!-- Filter tabs -->
+        <div class="flex flex-wrap justify-center gap-2 pt-4">
+          <button id="actTab_all" onclick="filterActivities('all')" class="activity-filter-btn px-4 py-2 rounded-xl text-xs font-bold bg-[#0b1d51] text-white shadow-sm transition" data-i18n="act_tab_all">
+            جميع البرامج
+          </button>
+          <button id="actTab_campaigns" onclick="filterActivities('campaigns')" class="activity-filter-btn px-4 py-2 rounded-xl text-xs font-semibold bg-white text-slate-600 hover:bg-slate-100 transition" data-i18n="act_tab_campaigns">
+            نظافة شوارع العاصمة
+          </button>
+          <button id="actTab_projects" onclick="filterActivities('projects')" class="activity-filter-btn px-4 py-2 rounded-xl text-xs font-semibold bg-white text-slate-600 hover:bg-slate-100 transition" data-i18n="act_tab_projects">
+            عقود المؤسسات والشركات
+          </button>
+          <button id="actTab_volunteer" onclick="filterActivities('volunteer')" class="activity-filter-btn px-4 py-2 rounded-xl text-xs font-semibold bg-white text-slate-600 hover:bg-slate-100 transition" data-i18n="act_tab_volunteer">
+            التوعية المدنية والبيئية
+          </button>
+        </div>
+      </div>
+
+      <!-- Activities Grid (Rendered dynamically) -->
+      <div id="activitiesContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"></div>
+
+    </div>
+  </section>
+
+  <!-- ==================== SECTION 5: METHODOLOGY & CORPORATE CONTRACTS ==================== -->
+  <section id="section-workflow" class="py-20 bg-[#0b1d51] text-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto mb-16 space-y-3">
+        <span class="inline-block px-3.5 py-1 rounded-full text-xs font-bold bg-sky-500/20 text-sky-300 border border-sky-400/30" data-i18n="workflow_badge">
+          منهجية دقيقة وضمان الجودة
+        </span>
+        <h2 class="text-2xl sm:text-3xl lg:text-4xl font-black text-white" data-i18n="workflow_title">
+          نظام العمل ومراحل تنفيذ العقود
+        </h2>
+        <p class="text-sm text-sky-200 leading-relaxed" data-i18n="workflow_desc">
+          بروتوكول تنظيمي وإداري دقيق لضمان تقديم أعلى درجات النظافة دون أي تعطيل لسير عمل المؤسسات.
+        </p>
+      </div>
+
+      <!-- 8-Step Illustrated Process Grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+        
+        <div class="p-6 rounded-2xl bg-slate-900/80 border border-slate-700 hover:border-sky-400 transition">
+          <div class="text-sky-400 font-mono font-bold text-lg mb-2">01</div>
+          <h4 class="font-bold text-base text-white mb-2" data-i18n="step1_title">1. استقبال الطلب</h4>
+          <p class="text-xs text-slate-400 leading-relaxed" data-i18n="step1_desc">تسجيل المعطيات وتحديد متطلبات العميل عبر المنصة أو الاتصال المباشر.</p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-slate-900/80 border border-slate-700 hover:border-sky-400 transition">
+          <div class="text-sky-400 font-mono font-bold text-lg mb-2">02</div>
+          <h4 class="font-bold text-base text-white mb-2" data-i18n="step2_title">2. المعاينة الميدانية</h4>
+          <p class="text-xs text-slate-400 leading-relaxed" data-i18n="step2_desc">زيارة الموقع في نواكشوط لمعاينة المساحات، نوعية الأرضيات وتحديد الاحتياجات.</p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-slate-900/80 border border-slate-700 hover:border-sky-400 transition">
+          <div class="text-sky-400 font-mono font-bold text-lg mb-2">03</div>
+          <h4 class="font-bold text-base text-white mb-2" data-i18n="step3_title">3. إعداد عرض الأسعار</h4>
+          <p class="text-xs text-slate-400 leading-relaxed" data-i18n="step3_desc">تقديم عرض مالي وفني واضح ومناسب يحدد العمالة والمعدات وجداول العمل.</p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-slate-900/80 border border-slate-700 hover:border-sky-400 transition">
+          <div class="text-sky-400 font-mono font-bold text-lg mb-2">04</div>
+          <h4 class="font-bold text-base text-white mb-2" data-i18n="step4_title">4. توقيع العقد الرسمي</h4>
+          <p class="text-xs text-slate-400 leading-relaxed" data-i18n="step4_desc">توقيع اتفاقية واضحة تحدد التزامات الطرفين ومستوى الجودة المطلوب.</p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-slate-900/80 border border-slate-700 hover:border-sky-400 transition">
+          <div class="text-sky-400 font-mono font-bold text-lg mb-2">05</div>
+          <h4 class="font-bold text-base text-white mb-2" data-i18n="step5_title">5. تجهيز فرق العمل</h4>
+          <p class="text-xs text-slate-400 leading-relaxed" data-i18n="step5_desc">توزيع طاقم موريتاني مدرب وتزويد الموقع بمواد التنظيف والمعدات المناسبة.</p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-slate-900/80 border border-slate-700 hover:border-sky-400 transition">
+          <div class="text-sky-400 font-mono font-bold text-lg mb-2">06</div>
+          <h4 class="font-bold text-base text-white mb-2" data-i18n="step6_title">6. جدولة العمليات</h4>
+          <p class="text-xs text-slate-400 leading-relaxed" data-i18n="step6_desc">تنظيم ورديات التنظيف وفق أوقات دوام المؤسسة (صباحية، مسائية، أو ليلية).</p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-slate-900/80 border border-slate-700 hover:border-sky-400 transition">
+          <div class="text-sky-400 font-mono font-bold text-lg mb-2">07</div>
+          <h4 class="font-bold text-base text-white mb-2" data-i18n="step7_title">7. مراقبة الجودة والالتزام</h4>
+          <p class="text-xs text-slate-400 leading-relaxed" data-i18n="step7_desc">متابعة ميدانية دورية من المشرف للتأكد من رضا العميل وتطبيق شروط النظافة.</p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-slate-900/80 border border-slate-700 hover:border-sky-400 transition">
+          <div class="text-sky-400 font-mono font-bold text-lg mb-2">08</div>
+          <h4 class="font-bold text-base text-white mb-2" data-i18n="step8_title">8. التقييم والتطوير المستمر</h4>
+          <p class="text-xs text-slate-400 leading-relaxed" data-i18n="step8_desc">جلسات تقييم وتواصل مستمر مع إدارة المؤسسة لتحسين الأداء وتلبية أي مستجدات.</p>
+        </div>
+
+      </div>
+
+      <!-- Corporate Special Contract Banner -->
+      <div class="p-8 md:p-10 rounded-3xl bg-slate-900/90 border border-sky-500/40 flex flex-col md:flex-row items-center justify-between gap-6">
+        <div>
+          <h3 class="text-xl md:text-2xl font-bold text-white mb-2" data-i18n="corporate_cta_title">
+            هل تمثل بنكاً، فندقاً، مستشفى أو شركة في موريتانيا؟
+          </h3>
+          <p class="text-xs sm:text-sm text-sky-200 max-w-2xl" data-i18n="corporate_cta_desc">
+            نوفر عقود نظافة دورية متخصصة ومصممة وفق مقاييس نشاطكم مع ضمان أعلى معايير الجودة والسرية.
+          </p>
+        </div>
+        <a href="#section-order" onclick="document.getElementById('orderContractType').value='annual'" class="whitespace-nowrap px-6 py-3.5 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-bold text-xs shadow-lg transition" data-i18n="btn_request_custom_contract">
+          طلب دراسة وعقد مخصص لمؤسستك
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==================== SECTION 6: INTERACTIVE WASTE REPORTING & MAP (NOUAKCHOTT) ==================== -->
+  <section id="section-report" class="py-20 bg-slate-50 border-t border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto mb-12 space-y-3">
+        <span class="inline-block px-3.5 py-1 rounded-full text-xs font-bold bg-red-100 text-red-800" data-i18n="report_badge">
+          مواطنة إيجابية من أجل موريتانيا
+        </span>
+        <h2 class="text-2xl sm:text-3xl lg:text-4xl font-black text-[#0b1d51]" data-i18n="report_title">
+          الإبلاغ عن تراكم النفايات والخريطة التفاعلية
+        </h2>
+        <p class="text-sm text-slate-500 leading-relaxed" data-i18n="report_desc">
+          ساهم معنا في نظافة وجمال أحيائنا! أبلغ عن أي تراكم للقمامة في شوارع نواكشوط لنوجه فريقنا للمعاينة والتنظيف.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        
+        <!-- Left: Interactive Map Container -->
+        <div class="lg:col-span-7 bg-white p-4 rounded-3xl border border-slate-200 shadow-md">
+          <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+            <div>
+              <h3 class="font-bold text-sm text-[#0b1d51]" data-i18n="map_intro">خريطة بلاغات النفايات الميدانية الحية - نواكشوط</h3>
+              <p class="text-[11px] text-slate-400" data-i18n="map_subtitle">استعرض مواقع البلاغات ومراحل متابعتها في الوقت الفعلي</p>
+            </div>
+            <!-- Status Filter -->
+            <div class="flex items-center gap-1">
+              <button id="btnFilterMap_all" onclick="filterMapByStatus('all')" class="map-filter-btn px-2.5 py-1 text-xs rounded-lg bg-sky-600 text-white font-bold transition">الكل</button>
+              <button id="btnFilterMap_new" onclick="filterMapByStatus('new')" class="map-filter-btn px-2.5 py-1 text-xs rounded-lg bg-white text-slate-600 hover:bg-slate-100 transition">جديد</button>
+              <button id="btnFilterMap_in_progress" onclick="filterMapByStatus('in_progress')" class="map-filter-btn px-2.5 py-1 text-xs rounded-lg bg-white text-slate-600 hover:bg-slate-100 transition">قيد المعالجة</button>
+              <button id="btnFilterMap_resolved" onclick="filterMapByStatus('resolved')" class="map-filter-btn px-2.5 py-1 text-xs rounded-lg bg-white text-slate-600 hover:bg-slate-100 transition">تم الحل</button>
+            </div>
+          </div>
+
+          <!-- Leaflet Map Container -->
+          <div id="wasteMap" class="h-[480px] w-full rounded-2xl overflow-hidden border border-slate-200 shadow-inner"></div>
+
+          <!-- Map Status Legend -->
+          <div class="mt-3 pt-3 border-t border-slate-100 flex flex-wrap items-center justify-center gap-4 text-[11px] font-semibold text-slate-600">
+            <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-red-500"></span> بلاغ جديد</span>
+            <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-sky-600"></span> تمت المراجعة</span>
+            <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-purple-500"></span> فريق متوجه</span>
+            <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span> قيد الإزالة</span>
+            <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-[#00a8cc]"></span> تمت إزالة النفايات</span>
+          </div>
+        </div>
+
+        <!-- Right: Waste Report Form -->
+        <div class="lg:col-span-5 bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-md">
+          <div class="flex items-center justify-between mb-4 border-b border-slate-100 pb-3">
+            <h3 class="font-bold text-base text-[#0b1d51] flex items-center gap-2">
+              <i class="fa-solid fa-camera text-red-600"></i>
+              <span>نموذج التبليغ السريع</span>
+            </h3>
+            <span class="text-[11px] text-sky-800 font-bold bg-sky-50 px-2.5 py-1 rounded-full">خدمة المواطن</span>
+          </div>
+
+          <form id="wasteReportForm" onsubmit="handleWasteReportSubmit(event)" class="space-y-4">
+            
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="block text-xs font-bold text-slate-700 mb-1" data-i18n="form_rep_name">اسم المبلّغ (اختياري)</label>
+                <input type="text" id="repName" placeholder="مواطن مسؤول" class="w-full px-3 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-sky-500 focus:outline-none bg-slate-50">
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-slate-700 mb-1" data-i18n="form_rep_phone">رقم الهاتف (اختياري)</label>
+                <input type="tel" id="repPhone" placeholder="45 25 00 00" class="w-full px-3 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-sky-500 focus:outline-none bg-slate-50">
+              </div>
+            </div>
+
+            <!-- GPS / Map Selection -->
+            <div class="bg-slate-50 p-3.5 rounded-2xl border border-slate-200">
+              <div class="flex items-center justify-between mb-2">
+                <label class="text-xs font-bold text-slate-700" data-i18n="form_rep_coords">الموقع على الخريطة *</label>
+                <button type="button" id="btnGeoLocation" onclick="useCurrentLocationForReport()" class="text-xs font-bold text-sky-700 hover:text-sky-800 flex items-center gap-1">
+                  <i class="fa-solid fa-location-crosshairs"></i>
+                  <span data-i18n="btn_use_current_location">تحديد موقعي الحالي GPS</span>
+                </button>
+              </div>
+              
+              <div class="flex items-center gap-2">
+                <input type="hidden" id="repLatitude" value="18.0735">
+                <input type="hidden" id="repLongitude" value="-15.9582">
+                <div class="text-xs font-mono text-slate-500 flex-1 truncate">
+                  الإحداثيات: <span id="repCoordsDisplay" class="text-sky-700 font-bold">18.0735, -15.9582 (نواكشوط)</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="block text-xs font-bold text-slate-700 mb-1" data-i18n="form_rep_city">المدينة أو المقاطعة *</label>
+                <input type="text" id="repCity" required value="نواكشوط" placeholder="نواكشوط، نواذيبو..." class="w-full px-3 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-sky-500 focus:outline-none bg-slate-50">
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-slate-700 mb-1" data-i18n="form_rep_district">الحي والشارع *</label>
+                <input type="text" id="repDistrict" required placeholder="تفرغ زينة، لكصر، عرفات، السبخة..." class="w-full px-3 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-sky-500 focus:outline-none bg-slate-50">
+              </div>
+            </div>
+
+            <input type="hidden" id="repStreet" value="">
+
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1" data-i18n="form_rep_desc">وصف مشكلة تراكم النفايات وحجمها *</label>
+              <textarea id="repDesc" required rows="2" placeholder="تراكم أكياس نفايات خارج الحاويات، ركام بناء، صناديق تعيق الطريق..." class="w-full px-3 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-sky-500 focus:outline-none bg-slate-50"></textarea>
+            </div>
+
+            <!-- Attach Photo -->
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1" data-i18n="form_rep_photo">إرفاق صورة للنفايات المتراكمة (اختياري ومهم)</label>
+              <div class="border border-dashed border-slate-300 rounded-xl p-3 text-center cursor-pointer hover:border-red-500 transition bg-slate-50" onclick="document.getElementById('repPhotoInput').click()">
+                <input type="file" id="repPhotoInput" accept="image/*" class="hidden">
+                <span class="text-xs text-slate-600 font-semibold"><i class="fa-solid fa-camera mr-1 ml-1 text-slate-400"></i> انقر لالتقاط صورة أو رفعها</span>
+                <div id="repPhotoPreview" class="hidden mt-2"></div>
+              </div>
+            </div>
+
+            <p class="text-[11px] text-slate-400" data-i18n="privacy_note">
+              🔒 خصوصيتكم محفوظة: لن يتم عرض اسمكم أو رقم هاتفكم على الخريطة العامة.
+            </p>
+
+            <button type="submit" id="btnSubmitReport" class="w-full py-3.5 rounded-xl bg-red-600 hover:bg-red-700 text-white font-extrabold text-xs shadow-lg shadow-red-600/20 transition flex items-center justify-center gap-2">
+              <i class="fa-solid fa-paper-plane"></i>
+              <span data-i18n="btn_submit_report">إرسال البلاغ فوراً للمتابعة</span>
+            </button>
+
+          </form>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==================== SECTION 7: FEEDBACK, COMPLAINTS & REVIEWS ==================== -->
+  <section id="section-feedback" class="py-20 bg-white border-t border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto mb-16 space-y-3">
+        <span class="inline-block px-3.5 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-900" data-i18n="feedback_badge">
+          رأيكم يبني تجربتنا
+        </span>
+        <h2 class="text-2xl sm:text-3xl lg:text-4xl font-black text-[#0b1d51]" data-i18n="feedback_title">
+          الشكاوى، الملاحظات، وتقييم الخدمات
+        </h2>
+        <p class="text-sm text-slate-500 leading-relaxed" data-i18n="feedback_desc">
+          نرحب بملاحظاتكم واقتراحاتكم لتطوير مستوى النظافة، كما تلتزم إدارة الشركة بالرد على جميع الرسائل والشكاوى.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+        
+        <!-- Feedback Form -->
+        <div class="lg:col-span-6 bg-slate-50 p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm">
+          <form id="feedbackForm" onsubmit="handleFeedbackSubmit(event)" class="space-y-4">
+            
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="block text-xs font-bold text-slate-700 mb-1" data-i18n="form_fb_type">نوع الرسالة *</label>
+                <select id="fbType" class="w-full px-3 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-sky-500 bg-white">
+                  <option value="complaint" data-i18n="fb_opt_complaint">شكوى بخصوص خدمة أو حي</option>
+                  <option value="note" data-i18n="fb_opt_note">ملاحظة ميدانية</option>
+                  <option value="suggestion" data-i18n="fb_opt_suggestion">اقتراح لتحسين النظافة</option>
+                  <option value="rating" data-i18n="fb_opt_rating">تقييم جودة الخدمات</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-slate-700 mb-1" data-i18n="form_fb_name">الاسم الكامل *</label>
+                <input type="text" id="fbName" required placeholder="أحمد ولد الفالي" class="w-full px-3 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-sky-500 bg-white">
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="block text-xs font-bold text-slate-700 mb-1" data-i18n="form_fb_phone">رقم الهاتف *</label>
+                <input type="tel" id="fbPhone" required placeholder="36 00 00 00" class="w-full px-3 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-sky-500 bg-white">
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-slate-700 mb-1" data-i18n="form_fb_email">البريد الإلكتروني (اختياري)</label>
+                <input type="email" id="fbEmail" placeholder="ahmed@example.mr" class="w-full px-3 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-sky-500 bg-white">
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1" data-i18n="form_fb_subject">موضوع الرسالة *</label>
+              <input type="text" id="fbSubject" required placeholder="موضوع الشكوى أو الملاحظة باختصار..." class="w-full px-3 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-sky-500 bg-white">
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1" data-i18n="form_fb_message">تفاصيل الرسالة أو الشكوى *</label>
+              <textarea id="fbMessage" required rows="3" placeholder="اكتب تفاصيل ملاحظتك أو شكواك وسنقوم بدراستها والرد عليكم..." class="w-full px-3 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-sky-500 bg-white"></textarea>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1" data-i18n="form_fb_rating">تقييمكم لمستوى النظافة</label>
+              <select id="fbRating" class="w-full px-3 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-sky-500 bg-white font-bold text-amber-600">
+                <option value="5">★★★★★ ممتاز (5/5)</option>
+                <option value="4">★★★★☆ جيد جداً (4/5)</option>
+                <option value="3">★★★☆☆ مقبول (3/5)</option>
+                <option value="2">★★☆☆☆ يحتاج لتحسين (2/5)</option>
+                <option value="1">★☆☆☆☆ غير راضٍ (1/5)</option>
+              </select>
+            </div>
+
+            <button type="submit" class="w-full py-3.5 rounded-xl bg-[#0b1d51] hover:bg-[#162d6f] text-white font-bold text-xs shadow-md transition flex items-center justify-center gap-2">
+              <i class="fa-solid fa-paper-plane text-sky-400"></i>
+              <span data-i18n="btn_submit_feedback">إرسال الرسالة للإدارة</span>
+            </button>
+
+          </form>
+        </div>
+
+        <!-- Live Testimonials & Reviews -->
+        <div class="lg:col-span-6 space-y-4">
+          <h3 class="font-bold text-lg text-[#0b1d51] mb-4" data-i18n="testimonials_title">
+            آراء وانطباعات شركائنا في موريتانيا
+          </h3>
+          <div id="testimonialsContainer" class="space-y-4"></div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==================== SECTION 8: NEWS & AWARENESS ==================== -->
+  <section id="section-news" class="py-20 bg-slate-50 border-t border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto mb-12 space-y-3">
+        <span class="inline-block px-3.5 py-1 rounded-full text-xs font-bold bg-sky-100 text-sky-900" data-i18n="news_badge">
+          توعية مستمرة من أجل الوطن
+        </span>
+        <h2 class="text-2xl sm:text-3xl lg:text-4xl font-black text-[#0b1d51]" data-i18n="news_title">
+          أخبار بصمة كلين وحملات التوعية البيئية
+        </h2>
+        <p class="text-sm text-slate-500 leading-relaxed" data-i18n="news_desc">
+          تابع مستجدات برامجنا وإرشادات المحافظة على البيئة الحضرية في موريتانيا.
+        </p>
+      </div>
+
+      <!-- News Container -->
+      <div id="newsContainer" class="grid grid-cols-1 md:grid-cols-3 gap-8"></div>
+
+    </div>
+  </section>
+
+  <!-- ==================== FOOTER (MAURITANIA ADDRESS & CONTACTS) ==================== -->
+  <footer class="bg-[#0b1d51] text-slate-300 text-xs pt-16 pb-12 border-t border-sky-900">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
+        
+        <!-- Col 1: Brand Info -->
+        <div class="space-y-4">
+          <div class="flex items-center gap-3">
+            <div class="h-12 w-12 rounded-xl bg-white p-1 flex items-center justify-center">
+              <img src="assets/logo.jpg" alt="Logo" class="h-full w-full object-contain">
+            </div>
+            <div>
+              <span class="text-lg font-black text-white block">بصمة كلين</span>
+              <span class="text-[10px] text-sky-400 block">نظافة بيئية بروح وطنية موريتانية</span>
+            </div>
+          </div>
+          <p class="text-slate-300 leading-relaxed text-xs" data-i18n="footer_desc">
+            مؤسسة وطنية موريتانية متخصصة في خدمات النظافة الحضرية، الصيانة المؤسسية، وإدارة النفايات، تعمل لخدمة العاصمة والوطن بأعلى معايير الإتقان.
+          </p>
+          <div class="flex items-center gap-2 pt-2">
+            <a href="https://wa.me/22245250000" target="_blank" class="w-9 h-9 rounded-lg bg-white/10 hover:bg-emerald-600 text-emerald-400 hover:text-white flex items-center justify-center transition">
+              <i class="fa-brands fa-whatsapp text-sm"></i>
+            </a>
+            <a href="#" class="w-9 h-9 rounded-lg bg-white/10 hover:bg-sky-600 text-sky-400 hover:text-white flex items-center justify-center transition">
+              <i class="fa-brands fa-facebook text-sm"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- Col 2: Quick Links -->
+        <div>
+          <h4 class="font-bold text-white text-sm mb-4" data-i18n="footer_quick_links">روابط سريعة</h4>
+          <ul class="space-y-2.5">
+            <li><a href="#hero" class="hover:text-sky-400 transition" data-i18n="nav_home">الرئيسية</a></li>
+            <li><a href="#section-about" class="hover:text-sky-400 transition" data-i18n="nav_about">من نحن</a></li>
+            <li><a href="#section-services" class="hover:text-sky-400 transition" data-i18n="nav_services">خدماتنا</a></li>
+            <li><a href="#section-order" class="hover:text-sky-400 transition" data-i18n="nav_order">طلب خدمة وعقد</a></li>
+            <li><a href="#section-tracking" class="hover:text-sky-400 transition" data-i18n="nav_tracking">متابعة الطلبات</a></li>
+            <li><a href="#section-report" class="text-red-400 hover:text-red-300 font-bold transition" data-i18n="nav_report">الإبلاغ عن النفايات</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 3: Services -->
+        <div>
+          <h4 class="font-bold text-white text-sm mb-4" data-i18n="footer_services">خدماتنا الأساسية</h4>
+          <ul class="space-y-2 text-[11px] text-slate-300">
+            <li>• كنس وإزالة رمال الشوارع</li>
+            <li>• جمع ونقل النفايات</li>
+            <li>• تنظيف الأحياء السكنية</li>
+            <li>• تنظيف المقرات الإدارية والبنوك</li>
+            <li>• تنظيف الفنادق والمطاعم</li>
+            <li>• تطهير المستشفيات والعيادات</li>
+            <li>• عقود الصيانة الدورية</li>
+          </ul>
+        </div>
+
+        <!-- Col 4: Official Mauritania Contacts -->
+        <div>
+          <h4 class="font-bold text-white text-sm mb-4" data-i18n="footer_contact_info">معلومات التواصل الرسمي</h4>
+          <ul class="space-y-3">
+            <li class="flex items-start gap-2">
+              <i class="fa-solid fa-location-dot text-sky-400 mt-1"></i>
+              <span data-i18n="footer_hq">المقر الرئيسي: تفرغ زينة، شارع المختار ولد داداه، نواكشوط - موريتانيا</span>
+            </li>
+            <li class="flex items-center gap-2">
+              <i class="fa-solid fa-phone text-sky-400"></i>
+              <span data-i18n="footer_phone">الهاتف: 45 25 00 00 / 36 00 00 00 (موريتانيا +222)</span>
+            </li>
+            <li class="flex items-center gap-2">
+              <i class="fa-solid fa-envelope text-sky-400"></i>
+              <span data-i18n="footer_email">البريد الإلكتروني: contact@bassmaclean.mr</span>
+            </li>
+            <li class="flex items-center gap-2">
+              <i class="fa-solid fa-clock text-sky-400"></i>
+              <span data-i18n="footer_hours">استقبال الطلبات والتدخل: طوال أيام الأسبوع</span>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="pt-8 border-t border-sky-900/60 text-center flex flex-col sm:flex-row items-center justify-between gap-4 text-slate-400">
+        <p data-i18n="footer_rights">جميع الحقوق محفوظة © 2026 شركة بصمة كلين للخدمات والنظافة العامة - موريتانيا 🇲🇷.</p>
+        <div class="flex items-center gap-4">
+          <button onclick="Admin.init(); document.getElementById('adminMainModal').classList.remove('hidden');" class="text-slate-300 hover:text-white transition">
+            <i class="fa-solid fa-lock mr-1 ml-1 text-sky-400"></i> دخول الإدارة
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- ==================== MODALS ==================== -->
+
+  <!-- 1. Service Details Modal -->
+  <div id="serviceDetailsModal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-2xl w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
+      <button onclick="closeServiceDetailsModal()" class="absolute top-4 left-4 w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center justify-center transition">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      <div id="serviceModalContent"></div>
+    </div>
+  </div>
+
+  <!-- 2. Order Success Modal -->
+  <div id="orderSuccessModal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full p-8 shadow-2xl text-center space-y-4">
+      <div class="w-16 h-16 rounded-full bg-sky-100 text-sky-700 flex items-center justify-center text-3xl mx-auto shadow-inner">
+        <i class="fa-solid fa-circle-check"></i>
+      </div>
+      <h3 class="text-xl font-black text-slate-900">تم استلام طلبكم بنجاح!</h3>
+      <p class="text-xs text-slate-500 leading-relaxed">
+        احتفظ بالرقم المرجعي الخاص بك لمتابعة مراحل مراجعة ومعاينة الطلب من الموقع.
+      </p>
+      
+      <div class="bg-slate-50 border border-slate-200 p-3 rounded-2xl flex items-center justify-between">
+        <span id="successOrderRefCode" class="font-mono text-base font-black text-sky-700 tracking-wider"></span>
+        <button onclick="copyReferenceCode('successOrderRefCode')" class="px-3 py-1.5 rounded-xl bg-sky-600 hover:bg-sky-700 text-white text-xs font-bold transition">
+          <i class="fa-solid fa-copy mr-1 ml-1"></i> نسخ
+        </button>
+      </div>
+
+      <!-- تفاصيل المساحة والدفع في نافذة النجاح -->
+      <div id="successPaymentDetailsBox" class="text-right p-3.5 rounded-2xl bg-sky-50 border border-sky-200 text-xs space-y-1.5 hidden">
+        <div class="flex justify-between items-center text-slate-700">
+          <span>المساحة:</span>
+          <strong id="successOrderArea" class="font-black text-[#0b1d51]"></strong>
+        </div>
+        <div class="flex justify-between items-center text-slate-700">
+          <span>المبلغ الإجمالي (100 MRU/م²):</span>
+          <strong id="successOrderCost" class="font-black text-amber-600 text-sm"></strong>
+        </div>
+        <div class="flex justify-between items-center text-slate-700 border-t border-sky-200 pt-1.5">
+          <span>طريقة الدفع المختارة:</span>
+          <strong id="successOrderMethod" class="font-black text-sky-800"></strong>
+        </div>
+        <p id="successOrderInstructions" class="text-[11px] text-slate-600 mt-1 pt-1 border-t border-sky-200/60 leading-relaxed"></p>
+      </div>
+
+      <div class="pt-2 flex flex-col gap-2">
+        <button onclick="trackOrderFromSuccessModal()" class="w-full py-3 rounded-xl bg-[#0b1d51] hover:bg-[#162d6f] text-white text-xs font-bold transition">
+          <i class="fa-solid fa-magnifying-glass mr-1.5 ml-1.5 text-sky-400"></i> الانتقال لمتابعة الطلب
+        </button>
+        <button onclick="document.getElementById('orderSuccessModal').classList.add('hidden')" class="w-full py-2.5 rounded-xl text-slate-500 hover:bg-slate-100 text-xs font-semibold transition">
+          إغلاق النافذة
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. News Reader Modal -->
+  <div id="newsModal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-2xl w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
+      <button onclick="document.getElementById('newsModal').classList.add('hidden')" class="absolute top-4 left-4 w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center justify-center transition">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      <div id="newsModalContent"></div>
+    </div>
+  </div>
+
+  <!-- 4. Auth Modal (Login / Register) -->
+  <div id="authModal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl relative">
+      <button onclick="document.getElementById('authModal').classList.add('hidden')" class="absolute top-4 left-4 w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center justify-center transition">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <div class="flex items-center justify-center border-b border-slate-200 mb-6 pb-2 gap-8 text-sm">
+        <button id="authTabLogin" onclick="switchAuthTab('login')" class="pb-2 border-b-2 border-sky-600 text-sky-700 font-bold transition">تسجيل الدخول</button>
+        <button id="authTabRegister" onclick="switchAuthTab('register')" class="pb-2 text-slate-400 hover:text-slate-600 transition">حساب جديد</button>
+      </div>
+
+      <form id="authLoginForm" onsubmit="handleClientLogin(event)" class="space-y-4">
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">البريد الإلكتروني</label>
+          <input type="email" id="loginEmail" required placeholder="client@mauritel.mr" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-sky-500 bg-slate-50">
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">كلمة المرور</label>
+          <input type="password" id="loginPassword" required placeholder="••••••••" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-sky-500 bg-slate-50">
+        </div>
+        <div class="p-2.5 bg-sky-50 rounded-xl text-[11px] text-sky-900 border border-sky-200">
+          <strong>حساب عميل تجريبي:</strong> client@mauritel.mr / كلمة المرور: client123
+        </div>
+        <button type="submit" class="w-full py-3 rounded-xl bg-[#0b1d51] hover:bg-[#162d6f] text-white font-bold text-xs shadow transition">دخول الحساب</button>
+      </form>
+
+      <form id="authRegisterForm" onsubmit="handleClientRegister(event)" class="hidden space-y-3">
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">الاسم الكامل أو اسم المؤسسة *</label>
+          <input type="text" id="regName" required placeholder="مجمع الأعمال الموريتاني" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs bg-slate-50">
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">البريد الإلكتروني *</label>
+          <input type="email" id="regEmail" required placeholder="contact@entreprise.mr" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs bg-slate-50">
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">كلمة المرور *</label>
+          <input type="password" id="regPassword" required placeholder="••••••••" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs bg-slate-50">
+        </div>
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">رقم الهاتف (موريتانيا)</label>
+            <input type="tel" id="regPhone" placeholder="45 25 00 00" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs bg-slate-50">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">اسم المؤسسة</label>
+            <input type="text" id="regOrg" placeholder="اختياري" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs bg-slate-50">
+          </div>
+        </div>
+        <button type="submit" class="w-full py-3 rounded-xl bg-[#0b1d51] hover:bg-[#162d6f] text-white font-bold text-xs shadow transition">إنشاء الحساب</button>
+      </form>
+
+    </div>
+  </div>
+
+  <!-- 5. Client Portal Modal -->
+  <div id="clientPortalModal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-2xl w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
+      <button onclick="document.getElementById('clientPortalModal').classList.add('hidden')" class="absolute top-4 left-4 w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center justify-center transition">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <div class="flex items-center gap-3 border-b border-slate-200 pb-4 mb-6">
+        <div class="w-12 h-12 rounded-2xl bg-sky-100 text-[#0b1d51] flex items-center justify-center text-2xl font-bold">
+          <i class="fa-solid fa-user-check"></i>
+        </div>
+        <div>
+          <h3 class="text-lg font-bold text-slate-900" data-i18n="portal_title">بوابة المشتركين والعملاء</h3>
+          <span class="text-xs text-slate-500">لوحة المتابعة الخاصة بحسابك - موريتانيا</span>
+        </div>
+      </div>
+
+      <div class="space-y-6">
+        <div>
+          <h4 class="font-bold text-xs text-slate-700 mb-3 flex items-center gap-2">
+            <i class="fa-solid fa-file-contract text-sky-600"></i>
+            <span data-i18n="portal_my_orders">طلباتي السابقة والعقود</span>
+          </h4>
+          <div id="portalOrdersList" class="space-y-2"></div>
+        </div>
+
+        <div>
+          <h4 class="font-bold text-xs text-slate-700 mb-3 flex items-center gap-2">
+            <i class="fa-solid fa-trash-can text-red-600"></i>
+            <span data-i18n="portal_my_reports">بلاغاتي عن تراكم النفايات</span>
+          </h4>
+          <div id="portalReportsList" class="space-y-2"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ==================== ADMIN DASHBOARD MODAL ==================== -->
+  <div id="adminMainModal" class="hidden fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md flex items-center justify-center p-2 sm:p-4">
+    <div class="bg-slate-900 text-white rounded-3xl w-full max-w-7xl h-[94vh] shadow-2xl border border-slate-800 flex flex-col overflow-hidden">
+      
+      <!-- Admin Header Bar -->
+      <div class="bg-[#071336] px-6 py-4 border-b border-slate-800 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="h-10 w-10 rounded-xl bg-white p-1 flex items-center justify-center">
+            <img src="assets/logo.jpg" alt="Logo" class="h-full w-full object-contain">
+          </div>
+          <div>
+            <span class="font-bold text-base block text-white" data-i18n="admin_title">لوحة التحكم الإدارية - بصمة كلين</span>
+            <span class="text-xs text-sky-400">الإشراف الميداني المركزي - موريتانيا</span>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <span id="adminLoggedName" class="text-xs text-slate-300 font-semibold hidden sm:inline"></span>
+          <button onclick="Admin.exportData('orders', 'csv')" class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-sky-300 text-xs font-bold transition flex items-center gap-1.5">
+            <i class="fa-solid fa-file-excel"></i> تصدير الطلبات CSV
+          </button>
+          <button onclick="Admin.exportData('reports', 'csv')" class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-red-400 text-xs font-bold transition flex items-center gap-1.5">
+            <i class="fa-solid fa-file-csv"></i> تصدير البلاغات CSV
+          </button>
+          <button onclick="document.getElementById('adminMainModal').classList.add('hidden')" class="w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center transition">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Admin Nav Tabs -->
+      <div class="bg-slate-950/60 px-6 py-2 border-b border-slate-800 flex items-center gap-2 overflow-x-auto text-xs">
+        <button id="adminBtn_overview" onclick="Admin.switchTab('overview')" class="admin-nav-btn px-4 py-2 rounded-xl bg-sky-600 text-white font-bold transition">
+          <i class="fa-solid fa-chart-pie mr-1 ml-1"></i> <span data-i18n="admin_tab_overview">نظرة عامة ومؤشرات</span>
+        </button>
+        <button id="adminBtn_orders" onclick="Admin.switchTab('orders')" class="admin-nav-btn px-4 py-2 rounded-xl text-slate-300 hover:bg-slate-800 transition">
+          <i class="fa-solid fa-file-contract mr-1 ml-1"></i> <span data-i18n="admin_tab_orders">إدارة الطلبات والعقود</span>
+        </button>
+        <button id="adminBtn_reports" onclick="Admin.switchTab('reports')" class="admin-nav-btn px-4 py-2 rounded-xl text-slate-300 hover:bg-slate-800 transition">
+          <i class="fa-solid fa-trash-can mr-1 ml-1"></i> <span data-i18n="admin_tab_reports">إدارة بلاغات النفايات</span>
+        </button>
+        <button id="adminBtn_feedback" onclick="Admin.switchTab('feedback')" class="admin-nav-btn px-4 py-2 rounded-xl text-slate-300 hover:bg-slate-800 transition">
+          <i class="fa-solid fa-comments mr-1 ml-1"></i> <span data-i18n="admin_tab_feedback">الشكاوى والملاحظات</span>
+        </button>
+      </div>
+
+      <!-- Admin Tab Content Body -->
+      <div class="flex-1 p-6 overflow-y-auto">
+        
+        <!-- Tab 1: Overview -->
+        <div id="adminContent_overview" class="admin-tab-content space-y-6">
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div class="bg-slate-800/80 p-4 rounded-2xl border border-slate-700">
+              <span class="text-xs text-slate-400 block mb-1">إجمالي طلبات الخدمات</span>
+              <strong id="kpi_total_orders" class="text-2xl font-black text-white">0</strong>
+              <div class="mt-2 text-[11px] text-sky-400 flex justify-between">
+                <span>قيد التنفيذ: <b id="kpi_inprogress_orders">0</b></span>
+                <span>مكتملة: <b id="kpi_completed_orders">0</b></span>
+              </div>
+            </div>
+
+            <div class="bg-slate-800/80 p-4 rounded-2xl border border-slate-700">
+              <span class="text-xs text-slate-400 block mb-1">طلبات قيد المعاينة</span>
+              <strong id="kpi_pending_orders" class="text-2xl font-black text-sky-400">0</strong>
+              <div class="mt-2 text-[11px] text-slate-400">بانتظار زيارة الموقع في نواكشوط</div>
+            </div>
+
+            <div class="bg-slate-800/80 p-4 rounded-2xl border border-slate-700">
+              <span class="text-xs text-slate-400 block mb-1">بلاغات النفايات الميدانية</span>
+              <strong id="kpi_total_reports" class="text-2xl font-black text-red-400">0</strong>
+              <div class="mt-2 text-[11px] text-sky-400 flex justify-between">
+                <span>تم حلها: <b id="kpi_resolved_reports">0</b></span>
+                <span>نشطة: <b id="kpi_active_reports">0</b></span>
+              </div>
+            </div>
+
+            <div class="bg-slate-800/80 p-4 rounded-2xl border border-slate-700">
+              <span class="text-xs text-slate-400 block mb-1">نسبة رضا العملاء والشركاء</span>
+              <strong id="kpi_satisfaction" class="text-2xl font-black text-amber-400">98.5%</strong>
+              <div class="mt-2 text-[11px] text-slate-400">تقييم معتمد للخدمات</div>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div class="bg-slate-800/80 p-5 rounded-2xl border border-slate-700">
+              <h4 class="font-bold text-sm text-slate-200 mb-4">توزيع طلبات الخدمات والعقود</h4>
+              <div class="h-64 relative">
+                <canvas id="ordersChart"></canvas>
+              </div>
+            </div>
+
+            <div class="bg-slate-800/80 p-5 rounded-2xl border border-slate-700">
+              <h4 class="font-bold text-sm text-slate-200 mb-4">مسار معالجة بلاغات النفايات بنواكشوط</h4>
+              <div class="h-64 relative">
+                <canvas id="reportsChart"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 2: Orders -->
+        <div id="adminContent_orders" class="admin-tab-content hidden space-y-4">
+          <div class="flex items-center justify-between">
+            <h3 class="font-bold text-base text-white">إدارة طلبات الخدمات والعقود في موريتانيا</h3>
+            <select onchange="Admin.loadOrdersTable(this.value)" class="text-xs bg-slate-800 border border-slate-700 text-slate-200 rounded-xl px-3 py-1.5 focus:outline-none">
+              <option value="all">كافة الحالات</option>
+              <option value="received">تم الاستلام</option>
+              <option value="under_review">قيد المعاينة</option>
+              <option value="approved">تمت الموافقة</option>
+              <option value="in_progress">قيد التنفيذ</option>
+              <option value="completed">مكتمل</option>
+              <option value="rejected">مرفوض</option>
+            </select>
+          </div>
+
+          <div class="bg-slate-800/80 rounded-2xl border border-slate-700 overflow-hidden">
+            <div class="overflow-x-auto">
+              <table class="w-full text-right text-xs">
+                <thead class="bg-slate-950 text-slate-400 border-b border-slate-800">
+                  <tr>
+                    <th class="p-3">الرقم المرجعي</th>
+                    <th class="p-3">العميل</th>
+                    <th class="p-3">الخدمة والعقد</th>
+                    <th class="p-3">الموقع</th>
+                    <th class="p-3">تاريخ الطلب</th>
+                    <th class="p-3">الحالة</th>
+                    <th class="p-3">الإجراءات</th>
+                  </tr>
+                </thead>
+                <tbody id="adminOrdersTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 3: Reports -->
+        <div id="adminContent_reports" class="admin-tab-content hidden space-y-4">
+          <div class="flex items-center justify-between">
+            <h3 class="font-bold text-base text-white">إدارة بلاغات تراكم النفايات بنواكشوط</h3>
+            <select onchange="Admin.loadReportsTable(this.value)" class="text-xs bg-slate-800 border border-slate-700 text-slate-200 rounded-xl px-3 py-1.5 focus:outline-none">
+              <option value="all">كافة البلاغات</option>
+              <option value="new">1. بلاغ جديد</option>
+              <option value="reviewed">2. تمت المراجعة</option>
+              <option value="dispatched">3. تم توجيه الفريق</option>
+              <option value="in_progress">4. قيد الإزالة</option>
+              <option value="resolved">5. تمت إزالة النفايات</option>
+            </select>
+          </div>
+
+          <div class="bg-slate-800/80 rounded-2xl border border-slate-700 overflow-hidden">
+            <div class="overflow-x-auto">
+              <table class="w-full text-right text-xs">
+                <thead class="bg-slate-950 text-slate-400 border-b border-slate-800">
+                  <tr>
+                    <th class="p-3">الرقم</th>
+                    <th class="p-3">المقاطعة والحي</th>
+                    <th class="p-3">وصف المشكلة</th>
+                    <th class="p-3">وقت البلاغ</th>
+                    <th class="p-3">الحالة</th>
+                    <th class="p-3">الصورة</th>
+                    <th class="p-3">تحديث الحالة</th>
+                  </tr>
+                </thead>
+                <tbody id="adminReportsTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 4: Feedback -->
+        <div id="adminContent_feedback" class="admin-tab-content hidden space-y-4">
+          <h3 class="font-bold text-base text-white">الشكاوى والملاحظات وردود الإدارة</h3>
+          <div class="bg-slate-800/80 rounded-2xl border border-slate-700 overflow-hidden">
+            <div class="overflow-x-auto">
+              <table class="w-full text-right text-xs">
+                <thead class="bg-slate-950 text-slate-400 border-b border-slate-800">
+                  <tr>
+                    <th class="p-3">النوع</th>
+                    <th class="p-3">المرسل</th>
+                    <th class="p-3">الرسالة</th>
+                    <th class="p-3">التقييم</th>
+                    <th class="p-3">رد الإدارة</th>
+                    <th class="p-3">إجراء</th>
+                  </tr>
+                </thead>
+                <tbody id="adminFeedbackTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Admin Login Modal -->
+  <div id="adminLoginModal" class="hidden fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-slate-900 text-white rounded-3xl max-w-sm w-full p-8 shadow-2xl border border-slate-800 text-center space-y-4">
+      <div class="h-14 w-14 rounded-2xl bg-white p-1 mx-auto flex items-center justify-center">
+        <img src="assets/logo.jpg" alt="Logo" class="h-full w-full object-contain">
+      </div>
+      <h3 class="text-xl font-bold">تسجيل دخول المشرفين</h3>
+      <p class="text-xs text-slate-400">لوحة تحكم شركة بصمة كلين - موريتانيا</p>
+
+      <form onsubmit="Admin.handleLogin(event)" class="space-y-4 text-right">
+        <div>
+          <label class="block text-xs font-bold text-slate-300 mb-1">البريد الإلكتروني</label>
+          <input type="email" id="adminEmail" required value="admin@bassmaclean.mr" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-xs text-white focus:outline-none focus:ring-2 focus:ring-sky-500">
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-300 mb-1">كلمة المرور</label>
+          <input type="password" id="adminPassword" required value="admin123" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-xs text-white focus:outline-none focus:ring-2 focus:ring-sky-500">
+        </div>
+        <div class="text-[11px] text-sky-300 bg-sky-950/70 p-2.5 rounded-xl text-center border border-sky-800">
+          بيانات المشرف: <b>admin@bassmaclean.mr</b> / <b>admin123</b>
+        </div>
+        <div class="flex gap-2">
+          <button type="submit" class="flex-1 py-3 rounded-xl bg-sky-600 hover:bg-sky-700 text-white font-bold text-xs shadow transition">تسجيل الدخول</button>
+          <button type="button" onclick="Admin.hideLoginModal()" class="px-4 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold">إلغاء</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Admin View Order Modal -->
+  <div id="adminViewOrderModal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-slate-900 text-white rounded-3xl max-w-lg w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto border border-slate-700">
+      <button onclick="document.getElementById('adminViewOrderModal').classList.add('hidden')" class="absolute top-4 left-4 w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center transition">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      <h3 class="font-bold text-base text-white mb-4 border-b border-slate-800 pb-2">تفاصيل طلب الخدمة المكتملة</h3>
+      <div id="adminViewOrderContent"></div>
+    </div>
+  </div>
+
+  <!-- Admin Change Order Status Modal -->
+  <div id="adminOrderStatusModal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl relative">
+      <button onclick="document.getElementById('adminOrderStatusModal').classList.add('hidden')" class="absolute top-4 left-4 w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center justify-center transition">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      <h3 class="font-bold text-base text-slate-900 mb-4">تحديث حالة الطلب وتدوين الملاحظات</h3>
+      <form onsubmit="Admin.saveOrderStatus(event)" class="space-y-4 text-right">
+        <input type="hidden" id="modalOrderId">
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">الحالة الجديدة *</label>
+          <select id="modalNewStatus" class="w-full px-3 py-2.5 rounded-xl border border-slate-200 text-xs font-bold text-slate-800">
+            <option value="received">1. تم استلام الطلب</option>
+            <option value="under_review">2. قيد المعاينة والدراسة</option>
+            <option value="approved">3. تمت الموافقة وتحديد الموعد</option>
+            <option value="in_progress">4. قيد التنفيذ الميداني</option>
+            <option value="completed">5. مكتمل بنجاح</option>
+            <option value="rejected">6. مرفوض مع توضيح السبب</option>
+          </select>
+        </div>
+        <div id="modalRejectionReasonContainer" class="hidden">
+          <label class="block text-xs font-bold text-red-700 mb-1">سبب الرفض (يظهر للعميل) *</label>
+          <textarea id="modalRejectionReason" rows="2" placeholder="الموقع خارج نطاق التغطية أو يتعارض مع الشروط الفنية..." class="w-full px-3 py-2 rounded-xl border border-red-200 bg-red-50 text-xs text-red-900"></textarea>
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">ملاحظات الإدارة (تظهر في نظام التتبع)</label>
+          <textarea id="modalAdminNotes" rows="2" placeholder="تم توجيه الفريق الميداني..." class="w-full px-3 py-2 rounded-xl border border-slate-200 bg-slate-50 text-xs text-slate-800"></textarea>
+        </div>
+        <button type="submit" class="w-full py-3 rounded-xl bg-sky-600 hover:bg-sky-700 text-white font-bold text-xs shadow transition">حفظ التحديث وتحديث التتبع</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Admin Reply Feedback Modal -->
+  <div id="adminReplyModal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl relative text-right">
+      <button onclick="document.getElementById('adminReplyModal').classList.add('hidden')" class="absolute top-4 left-4 w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center justify-center transition">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      <h3 class="font-bold text-base text-slate-900 mb-2">الرد الرسمي على العميل</h3>
+      <p class="text-xs text-slate-500 mb-4">المرسل: <strong id="replyClientName" class="text-slate-800"></strong></p>
+
+      <form onsubmit="Admin.sendFeedbackReply(event)" class="space-y-4">
+        <input type="hidden" id="replyFeedbackId">
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">نص الرد الرسمي *</label>
+          <textarea id="replyText" required rows="4" placeholder="نشكركم على تواصلكم مع بصمة كلين، تم اتخاذ الإجراء التالي..." class="w-full px-3 py-2.5 rounded-xl border border-slate-200 text-xs"></textarea>
+        </div>
+        <button type="submit" class="w-full py-3 rounded-xl bg-sky-600 hover:bg-sky-700 text-white font-bold text-xs shadow transition">إرسال الرد واعتماده</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Floating Toast Notification Component -->
+  <div id="appToast" class="hidden fixed bottom-6 right-6 z-50 transform transition-all duration-300 ease-out">
+    <div class="bg-[#0b1d51] text-white px-5 py-3.5 rounded-2xl shadow-2xl flex items-center gap-3 border border-sky-800">
+      <i id="toastIcon" class="fa-solid fa-circle-check text-sky-400 text-lg"></i>
+      <span id="toastMessage" class="text-xs font-bold"></span>
+    </div>
+  </div>
+
+  <!-- Scripts with cache busting -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="js/i18n.js?v=7.0_payment_form"></script>
+  <script src="js/db.js?v=7.0_payment_form"></script>
+  <script src="js/map.js?v=7.0_payment_form"></script>
+  <script src="js/admin.js?v=7.0_payment_form"></script>
+  <script src="js/app.js?v=7.0_payment_form"></script>
+
+  <!-- Payment & Area Calculator: handled in app.js -->
+
+</body>
+</html>
